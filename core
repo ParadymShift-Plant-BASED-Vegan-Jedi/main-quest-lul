@@ -38,3 +38,190 @@ Use this command to set the time!
 `!mq transday
 Use this command to activate, deactivate, and set the transient daily!]
 $endIf
+/*
+
+clock tower SET
+
+*/
+$if[$message[1]==settime||$message[1]==st&&$message[2]==]
+    $sendMessage[In order to set the time, please enter the correct hour followed by either am or pm, followed by one of the three following, depending on if your local time is on the same day or a different day. One you know which day the new time is, use one of the following three codes for your fourth argument: 
+same day (sd), next day (nd), and previous day (pd). 
+
+Please note that if you fail to provide the final triad option argument to mark which day the new time is, [Main Quest Buddy] will assume that the time is from the same day (sd). 
+
+It should look something like the following:
+
+!mq settime 7 pm sd]
+$endIf
+
+$if[$message[1]==settime||$message[1]==st&&$isNumber[$message[2]]==true]
+    $if[$message[4]==||$message[4]==sd||$message[4]==Sd||$message[4]==SD]
+        $if[$message[3]==am||$message[3]==a.m.||$message[3]==AM||$message[3]==A.M.]
+            $if[$message[2]==12]
+                $setUserVar[mqtd;-$hour]
+                $sendMessage[The clock tower has now been set to: 
+$formatDate[$dateStamp]
+$if[$sum[$getUserVar[mqtd];$hour]>12]$sub[$getUserVar[mqtd];12$elseif[$sum[$getUserVar[mqtd];$hour]<13]$sum[$getUserVar[mqtd];$hour$endelseif$endif:$minute am]
+                $else
+                    $setUserVar[mqtd;$sub[$message[2];$hour]]
+                    $sendMessage[The clock tower has now been set to: 
+$formatDate[$dateStamp]
+$if[$sum[$getUserVar[mqtd];$hour]>12]$sub[$getUserVar[mqtd];12$elseif[$sum[$getUserVar[mqtd];$hour]<13]$sum[$getUserVar[mqtd];$hour$endelseif$endif:$minute am]
+            $endIf
+            $elseif[$message[3]==pm||$message[3]==p.m.||$message[3]==P.M.||$message[3]==PM]
+                $setUserVar[mqtd;$sub[$sum[12;$message[2]];$hour]]
+                $sendMessage[The clock tower has now been set to:
+$formatDate[$dateStamp]
+$if[$sum[$getUserVar[mqtd];$hour]>12]$sub[$getUserVar[mqtd];12$elseif[$sum[$getUserVar[mqtd];$hour]<13]$sum[$getUserVar[mqtd];$hour$endelseif$endif:$minute pm]
+           $endelseif
+        $endIf
+        $elseIf[$message[3]==am||$message[3]==AM||$message[3]==a.m.||$message[3]==A.M.&&$message[4]==pd||$message[4]==Pd||$message[4]==PD]
+            $stop[Argument error. Cannot be both previous day AND in the am. Please verify that time/date is correct and try again or contact staff for further assistance.]
+        $endelseIf
+        $elseif[$message[4]==pd||$message[4]==Pd||$message[4]==PD&&$day==1&&$month==January]
+            $setUserVar[mqtd;$sum[-$sub[24;$sum[$message[2];12]];-$hour]]
+            $sendMessage[HAPPY $year NEW YEARS EVE!!
+
+The clock tower has now been set to:
+$if[$day[yes]==Monday]Sunday$elseif[$day[yes]==Tuesday]Monday$endelseif$elseif[$day[yes]==Wednesday]Tuesday$endelseif$elseif[$day[yes]==Thursday]Wednesday$endelseif$elseif[$day[yes]==Friday]Thursday$endelseif$elseif[$day[yes]==Saturday]Friday$endelseif$elseif[$day[yes]==Sunday]Saturday$endelseif$endif, 31 December $sub[$year;1]
+$message[2]:$minute pm]
+        $endelseif
+        $elseif[$message[4]==pd||$message[4]==Pd||$message[4]==PD&&$day==1&&$month!=January]
+            $setUserVar[mqtd;$sum[-$sub[24;$sum[$message[2];12]];-$hour]]
+            $sendMessage[The clock tower has now been set to:
+$if[$day[yes]==Monday]Sunday$elseif[$day[yes]==Tuesday]Monday$endelseif$elseif[$day[yes]==Wednesday]Tuesday$endelseif$elseif[$day[yes]==Thursday]Wednesday$endelseif$elseif[$day[yes]==Friday]Thursday$endelseif$elseif[$day[yes]==Saturday]Friday$endelseif$elseif[$day[yes]==Sunday]Saturday$endelseif$endif, $if[$month==September||$month==April||$month==June||$month==November]30$elseIf[$month!=September||$month!=April||$month!=June||$month!=November||$month!=February]31$endelseIf$elseIf[$month==February]28$endelseIf$endIf $if[$month==February]January$elseIf[$month==March]February$endelseIf$elseIf[$month==April]March$endelseIf$elseIf[$month==May]April$endelseIf$elseIf[$month==June]May$endelseIf$elseIf[$month==July]June$endelseIf$elseIf[$month==August]July$endelseIf$elseIf[$month==September]August$endelseIf$elseIf[$month==October]September$endelseIf$elseIf[$month==November]October$endelseIf$elseIf[$month==December]November$endelseIf$else we must be living in the twilight zone$endIf $year
+$message[2]:$minute pm]
+        $endelseif
+        $elseif[$message[4]==pd||$message[4]==Pd||$message[4]==PD&&$day!=1]
+            $setUserVar[mqtd;$sum[-$sub[24;$sum[$message[2];12]];-$hour]]
+            $sendMessage[The clock tower has now been set to:
+$if[$day[yes]==Monday]Sunday$elseif[$day[yes]==Tuesday]Monday$endelseif$elseif[$day[yes]==Wednesday]Tuesday$endelseif$elseif[$day[yes]==Thursday]Wednesday$endelseif$elseif[$day[yes]==Friday]Thursday$endelseif$elseif[$day[yes]==Saturday]Friday$endelseif$elseif[$day[yes]==Sunday]Saturday$endelseif$endif, $sub[$day;1] $month $year
+$message[2]:$minute pm]
+        $endelseIf
+        $elseif[$message[4]==nd||$message[4]==Nd||$message[4]==ND&&$message[3]==am||$message[3]==AM||$message[3]==a.m.||$message[3]==A.M.]
+            $if[$message[2]==12]
+                $setUserVar[mqtd;$sub[24;$hour]
+                $else
+                    $setUserVar[mqtd;$sum[$message[2];$sub[24;$hour]]
+            $endIf
+            $if[$month==December&&$day==31]
+                $sendMessage[HAPPY $sum[1;$year] NEW YEARS $mention!
+
+The clock tower has now been set to:
+$if[$day[yes]==Monday]Tuesday$elseif[$day[yes]==Tuesday]Wednesday$endelseif$elseif[$day[yes]==Wednesday]Thursday$endelseif$elseif[$day[yes]==Thursday]Friday$endelseif$elseif[$day[yes]==Friday]Saturday$endelseif$elseif[$day[yes]==Saturday]Sunday$endelseif$elseif[$day[yes]==Sunday]Monday$endelseif$endif, 1 January $sum[1;$year]
+$message[2]:$minute am]
+                $elseif[$month==September||$month==April||$month==June||$month==November&&$day==30]
+                    $sendMessage[The clock tower has now been set to:
+$if[$day[yes]==Monday]Tuesday$elseif[$day[yes]==Tuesday]Wednesday$endelseif$elseif[$day[yes]==Wednesday]Thursday$endelseif$elseif[$day[yes]==Thursday]Friday$endelseif$elseif[$day[yes]==Friday]Saturday$endelseif$elseif[$day[yes]==Saturday]Sunday$endelseif$elseif[$day[yes]==Sunday]Monday$endelseif$endif, 1 $if[$month==September]October$elseif[$month==April]May$endelseif$elseif[$month==June]July$endelseif$elseif[$month==November]December$endelseif$endif $year
+$message[2]:$minute am]
+                $endelseif
+                $elseif[$month==January||$month==February||$month==March||$month==May||$month==July||$month==August||$month==September||$month==October&&$day==31]
+                    $sendMessage[The clock tower has now been set to:
+$if[$day[yes]==Monday]Tuesday$elseif[$day[yes]==Tuesday]Wednesday$endelseif$elseif[$day[yes]==Wednesday]Thursday$endelseif$elseif[$day[yes]==Thursday]Friday$endelseif$elseif[$day[yes]==Friday]Saturday$endelseif$elseif[$day[yes]==Saturday]Sunday$endelseif$elseif[$day[yes]==Sunday]Monday$endelseif$endif, 1 $if[$month==January]February$elseif[$month==February]March$endelseif$elseif[$month==March]April$endelseif$elseif[$month==May]June$endelseif$elseif[$month==July]August$endelseif$elseif[$month==August]September$endelseif$elseif[$month==October]November$endelseif$endif $year
+$message[2]:$minute am]
+                $endelseif
+            $endIf
+        $endelseif
+        $elseif[$message[4]==nd||$message[4]==Nd||$message[4]==ND&&$message[3]==pm||$message[3]==PM||$message[3]==p.m.||$message[3]==P.M.]
+            
+        $endelseif
+        $else
+        $sendMessage[Argument 4 error. Please check syntax and try again. Argument 4 should be either blank, pm, sd, or nd]
+    $endIf
+$endIf
+
+/*
+$if[$message[1]==ct||$message[1]==clocktower]
+    $if[$getUserVar[mqtdm]==0]
+        $if[$sum[$getUserVar[mqtd];$hour]>24]
+            $if[day==30&&$month==September||$month==April||$month==June||$month==November]
+                $sendMessage[The clock tower currently reads:
+$if[$day[yes]==Monday]Tuesday$elseif[$day[yes]==Tuesday]Wednesday$endelseif$elseif[$day[yes]==Wednesday]Thursday$endelseif$elseif[$day[yes]==Thursday]Friday$endelseif$elseif[$day[yes]==Friday]Saturday$endelseif$elseif[$day[yes]==Saturday]Sunday$endelseif$elseif[$day[yes]==Sunday]Monday$endelseif$endif, 1 $if[$month==September]October$elseif[$month==April]May$endelseif$elseif[$month==June]July$endelseif$elseif[$month==November]December$endelseif$endif $year
+$if[$sum[$getUserVar[mqtd];$hour]>35]$sum[$getUserVar[mqtd];$hour;-24]:$minute pm$elseif[$sum[$getUserVar[mqtd];$hour]<36]$sum[$getUserVar[mqtd];$hour;-24]:$hour am$endelseif$elseif[$sum[$getUserVar[mqtd];$hour]>38]ERROR mqtd advanced diff contradiction;14MAX.$endelseif$endif
+
+To change the time, please use the following command:
+    
+!mq settime
+https://tenor.com/bfpWJ.gif]
+            $elseif[$month==December&&$day==31]
+                $sendMessage[HAPPY $sum[1;$year] NEW YEARS $mention!
+
+The clock tower currently reads:
+$if[$day[yes]==Monday]Tuesday$elseif[$day[yes]==Tuesday]Wednesday$endelseif$elseif[$day[yes]==Wednesday]Thursday$endelseif$elseif[$day[yes]==Thursday]Friday$endelseif$elseif[$day[yes]==Friday]Saturday$endelseif$elseif[$day[yes]==Saturday]Sunday$endelseif$elseif[$day[yes]==Sunday]Monday$endelseif$endif, 1 Junuary $sum[1;$year]
+$if[$sum[$getUserVar[mqtd];$hour]>35]$sum[$getUserVar[mqtd];$hour;-24]:$minute pm$elseif[$sum[$getUserVar[mqtd];$hour]<36]$sum[$getUserVar[mqtd];$hour;-24]:$hour am$endelseif$elseif[$sum[$getUserVar[mqtd];$hour]>38]ERROR mqtd advanced diff contradiction;14MAX.$endelseif$endif
+
+To change the time, please use the following command:
+    
+!mq settime
+https://tenor.com/bfpWJ.gif]
+            $endelseif
+            $elseif[$month==January||$month==February||$month==March||$month==May||$month==July||$month==August||$month==September||$month==October&&$day==31]
+                $sendMessage[The clock tower currently reads:
+$if[$day[yes]==Monday]Tuesday$elseif[$day[yes]==Tuesday]Wednesday$endelseif$elseif[$day[yes]==Wednesday]Thursday$endelseif$elseif[$day[yes]==Thursday]Friday$endelseif$elseif[$day[yes]==Friday]Saturday$endelseif$elseif[$day[yes]==Saturday]Sunday$endelseif$elseif[$day[yes]==Sunday]Monday$endelseif$endif, 1 $if[$month==January]February$elseif[$month==February]March$endelseif$elseif[$month==March]April$endelseif$elseif[$month==May]June$endelseif$elseif[$month==July]August$endelseif$elseif[$month==August]September$endelseif$elseif[$month==October]November$endelseif$endif $year
+$if[$sum[$getUserVar[mqtd];$hour]>35]$sum[$getUserVar[mqtd];$hour;-24]:$minute pm$elseif[$sum[$getUserVar[mqtd];$hour]<36]$sum[$getUserVar[mqtd];$hour;-24]:$hour am$endelseif$elseif[$sum[$getUserVar[mqtd];$hour]>38]ERROR mqtd advanced diff contradiction;14MAX.$endelseif$endif
+
+To change the time, please use the following command:
+    
+!mq settime
+https://tenor.com/bfpWJ.gif]
+            $endelseif
+            $else
+                $sendMessage[The clock tower currently reads:
+
+$if[$day[yes]==Monday]Tuesday$elseif[$day[yes]==Tuesday]Wednesday$endelseif$elseif[$day[yes]==Wednesday]Thursday$endelseif$elseif[$day[yes]==Thursday]Friday$endelseif$elseif[$day[yes]==Friday]Saturday$endelseif$elseif[$day[yes]==Saturday]Sunday$endelseif$elseif[$day[yes]==Sunday]Monday$endelseif$endif, $sum[$day;1] $month $year
+$if[$sum[$getUserVar[mqtd];$hour]>35]$sum[$getUserVar[mqtd];$hour;-24]:$minute pm$elseif[$sum[$getUserVar[mqtd];$hour]<36]$sum[$getUserVar[mqtd];$hour;-24]:$hour am$endelseif$elseif[$sum[$getUserVar[mqtd];$hour]>38]ERROR mqtd advanced diff contradiction;14MAX.$endelseif$endif
+
+To change the time, please use the following command:
+    
+!mq settime
+https://tenor.com/bfpWJ.gif]
+            $endIf
+        $endIf
+        $if[$sum[$getUserVar[mqtd];$hour]==24]
+            $if[day==30&&$month==September||$month==April||$month==June||$month==November]
+                $sendMessage[The clock tower currently reads:
+$if[$day[yes]==Monday]Tuesday$elseif[$day[yes]==Tuesday]Wednesday$endelseif$elseif[$day[yes]==Wednesday]Thursday$endelseif$elseif[$day[yes]==Thursday]Friday$endelseif$elseif[$day[yes]==Friday]Saturday$endelseif$elseif[$day[yes]==Saturday]Sunday$endelseif$elseif[$day[yes]==Sunday]Monday$endelseif$endif, 1 $if[$month==September]October$elseif[$month==April]May$endelseif$elseif[$month==June]July$endelseif$elseif[$month==November]December$endelseif$endif $year
+
+I LEFT OFF RIGHT HERE THINKING ABOUT 24 HOURS BEING UNIQUE IN THAT IT NEEDS -12 YET STILL REQUIRES A DIFFERENT DAY AND AM/PM BINARY
+
+$sum[$getUserVar[mqtd];$hour;-24]:$minute pm$elseif[$sum[$getUserVar[mqtd];$hour]<36]$sum[$getUserVar[mqtd];$hour;-24]:$hour am$endelseif$elseif[$sum[$getUserVar[mqtd];$hour]>38]ERROR mqtd advanced diff contradiction;14MAX.$endelseif$endif
+
+To change the time, please use the following command:
+    
+!mq settime
+https://tenor.com/bfpWJ.gif]
+            $elseif[$month==December&&$day==31]
+                $sendMessage[HAPPY $sum[1;$year] NEW YEARS $mention!
+
+The clock tower currently reads:
+$if[$day[yes]==Monday]Tuesday$elseif[$day[yes]==Tuesday]Wednesday$endelseif$elseif[$day[yes]==Wednesday]Thursday$endelseif$elseif[$day[yes]==Thursday]Friday$endelseif$elseif[$day[yes]==Friday]Saturday$endelseif$elseif[$day[yes]==Saturday]Sunday$endelseif$elseif[$day[yes]==Sunday]Monday$endelseif$endif, 1 Junuary $sum[1;$year]
+$if[$sum[$getUserVar[mqtd];$hour]>35]$sum[$getUserVar[mqtd];$hour;-24]:$minute pm$elseif[$sum[$getUserVar[mqtd];$hour]<36]$sum[$getUserVar[mqtd];$hour;-24]:$hour am$endelseif$elseif[$sum[$getUserVar[mqtd];$hour]>38]ERROR mqtd advanced diff contradiction;14MAX.$endelseif$endif
+
+To change the time, please use the following command:
+    
+!mq settime
+https://tenor.com/bfpWJ.gif]
+            $endelseif
+            $elseif[$month==January||$month==February||$month==March||$month==May||$month==July||$month==August||$month==September||$month==October&&$day==31]
+                $sendMessage[The clock tower currently reads:
+$if[$day[yes]==Monday]Tuesday$elseif[$day[yes]==Tuesday]Wednesday$endelseif$elseif[$day[yes]==Wednesday]Thursday$endelseif$elseif[$day[yes]==Thursday]Friday$endelseif$elseif[$day[yes]==Friday]Saturday$endelseif$elseif[$day[yes]==Saturday]Sunday$endelseif$elseif[$day[yes]==Sunday]Monday$endelseif$endif, 1 $if[$month==January]February$elseif[$month==February]March$endelseif$elseif[$month==March]April$endelseif$elseif[$month==May]June$endelseif$elseif[$month==July]August$endelseif$elseif[$month==August]September$endelseif$elseif[$month==October]November$endelseif$endif $year
+$if[$sum[$getUserVar[mqtd];$hour]>35]$sum[$getUserVar[mqtd];$hour;-24]:$minute pm$elseif[$sum[$getUserVar[mqtd];$hour]<36]$sum[$getUserVar[mqtd];$hour;-24]:$hour am$endelseif$elseif[$sum[$getUserVar[mqtd];$hour]>38]ERROR mqtd advanced diff contradiction;14MAX.$endelseif$endif
+
+To change the time, please use the following command:
+    
+!mq settime
+https://tenor.com/bfpWJ.gif]
+            $endelseif
+            $else
+                $sendMessage[The clock tower currently reads:
+
+$if[$day[yes]==Monday]Tuesday$elseif[$day[yes]==Tuesday]Wednesday$endelseif$elseif[$day[yes]==Wednesday]Thursday$endelseif$elseif[$day[yes]==Thursday]Friday$endelseif$elseif[$day[yes]==Friday]Saturday$endelseif$elseif[$day[yes]==Saturday]Sunday$endelseif$elseif[$day[yes]==Sunday]Monday$endelseif$endif, $sum[$day;1] $month $year
+$if[$sum[$getUserVar[mqtd];$hour]>35]$sum[$getUserVar[mqtd];$hour;-24]:$minute pm$elseif[$sum[$getUserVar[mqtd];$hour]<36]$sum[$getUserVar[mqtd];$hour;-24]:$hour am$endelseif$elseif[$sum[$getUserVar[mqtd];$hour]>38]ERROR mqtd advanced diff contradiction;14MAX.$endelseif$endif
+
+To change the time, please use the following command:
+    
+!mq settime
+https://tenor.com/bfpWJ.gif]
+            $endIf
+        $endIf
+        
