@@ -1,0 +1,40 @@
+$if[$message[1]==&&$getUserVar[reg]==undefined]
+    $setUserVar[reg;1]
+    $setUserVar[mqlvl;1]
+    $setUserVar[mqxp;50]
+ /* $setUserVar[mqtimeh;0] 
+    $setUserVar[mqtimem;0]
+    $setUserVar[mqnth;0] 
+    $setUserVar[mqntm;0] */
+    $setUserVar[mqtd;0]
+    $setUserVar[mqtdm;0]
+    $sendMessage[Congratulations, $nickname[$authorID]! 🎉😄👏👏 
+You're now officially registered for Main Quest: Level Up Life! 
+     
+For a guide of all commands, use the following command:
+     
+!mq guide]
+    $elseif[$message[1]==&&$getUserVar[reg]==1]
+    $sendMessage[$nickname[$authorID] is already registered on Main Quest! 
+     
+Level: $getUserVar[mqlvl]]
+    $endelseif
+$endIf
+$if[$message[1]==guide]
+   $sendMessage[Here's a list of all Main Quest commands! 📜
+   
+`!mq`
+Use this command to register!
+
+`!mq guide`
+Use this command to output this information again
+
+`!mq clocktower`
+Use this command to check the time!
+
+`!mq settime`
+Use this command to set the time!
+
+`!mq transday
+Use this command to activate, deactivate, and set the transient daily!]
+$endIf
