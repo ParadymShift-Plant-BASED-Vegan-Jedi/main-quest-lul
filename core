@@ -36,7 +36,7 @@ Use this command to check the time!
 Use this command to set the time!
 
 `!mq transday
-Use this command to activate, deactivate, and set the transient daily!]
+Use this command to activate, deactivate, check, and set your transient dailys!]
 $endIf
 /* 
 Transient Daily Command
@@ -74,7 +74,7 @@ $if[$message[1]==td||$message[1]==transday&&$message[2]==leverpull]
 
 With a satisfying clunk, it shifts positions from $if[$getUserVar[td]==undefined||$getUserVar[td]==inactive]inactive$elseif[$getUserVar[td]==active]active$endelseif$endif to $if[$getUserVar[td]==undefined||$getUserVar[td]==inactive]active$elseif[$getUserVar[td]==active]inactive$endelseif$endif!
 
-$if[$getUserVar[td]==undefined]||$getUserVar[td]==inactive]You will now be reminded to set your transient daily list at $if[$getUserVar[tds]==undefined]4:30 am$else$getUserVar[tds]$endIf, as well reminded to check in at $if[$getUserVar[tdc]==undefined]7:30 pm$else$getUserVar[tdc]$endIf, according to the clock tower.]
+$if[$getUserVar[td]==undefined]||$getUserVar[td]==inactive]You will now be reminded to set your transient daily list at $if[$getUserVar[tds]==undefined]4:30 am$else$getUserVar[tds]$endIf, as well reminded to check in at $if[$getUserVar[tdc]==undefined]7:30 pm$else$getUserVar[tdc]$endIf, according to the clock tower.$elseIf[$getUserVar[td]==active]You will no longer be reminded of transient dailys.$endelseif$endif]
             $if[$getUserVar[td]==undefined]
                 $setUserVar[td;active]
                 $setUserVar[tds;4:30 am]
@@ -89,3 +89,56 @@ $if[$getUserVar[td]==undefined]||$getUserVar[td]==inactive]You will now be remin
         $endelseif
     $endIf
 $endIf
+/*           transday set reminder and check-in               */
+$if[$message[1]==td||$message[1]==transday&&$message[2]==set]
+    $if[$getUserVar[td]==inactive||$getUserVar[td]==undefined]
+        $sendMessage[Error. Transient daily lever currently set to: inactive
+
+In order to activate transient dailys, please pull the transient daily lever with the following command:
+
+!mq td leverpull]
+        $elseif[$message[3]==&&$getUserVar[td]==active]
+            $sendMessage[You are currently being reminded to set your transient daily list at $getUserVar[tds] as well as reminded to check in at $getUserVar[tdc].
+
+In order to change the time you would like to be reminded to check in or set your transient dailys, please run the command again and include a time as well as which reminder you are setting. Those arguments should look like this:
+
+!mq td set checkin 9:30 pm
+
+!mq td set tdremind 6:30 am]
+        $endelseif
+        $elseif[$message[3]!=checkin||$message[3]!=tdremind]
+            $sendMessage[Error. Invalid argument. Argument 3 must be either 'checkin' or 'tdremind']
+        $endelseif
+        $elseif[$message[5]!=am||$message[5]!=pm]
+            $sendMessage[Error. Invalid argument. Argument 5 must be either 'am' or 'pm']
+        $endelseif
+        $elseif[$message[3]==checkin||$message[3]==tdremind]
+            $if[$message[3]==checkin]
+                $setUserVar[tdc;$message[4] $if[$message[5]==pm]pm$elseif[$message[5]==am]am$endelseif$endIf]
+                $sendMessage[You have successfully changed the transient daily check-in reminder time!
+                
+You are currently being reminded to set your transient daily list at $getUserVar[tds] as well as reminded to check in at $getUserVar[tdc].
+
+In order to change the time you would like to be reminded to check in or set your transient dailys, please run the command again. Don't forget to include a time as well as which reminder you are setting. Those arguments should look like this:
+
+!mq td set checkin 10:30 pm
+
+!mq td set tdremind 7:30 am]
+                $elseif[$message[3]==tdremind]
+                    $setUserVar[tdc;$message[4] $if[$message[5]==pm]pm$elseif[$message[5]==am]am$endelseif$endIf]
+                $sendMessage[You have successfully changed the transient daily check-in reminder time!
+                
+You are currently being reminded to set your transient daily list at $getUserVar[tds] as well as reminded to check in at $getUserVar[tdc].
+
+In order to change the time you would like to be reminded to check in or set your transient dailys, please run the command again. Don't forget to include a time as well as which reminder you are setting. Those arguments should look like this:
+
+!mq td set checkin 10:30 pm
+
+!mq td set tdremind 7:30 am]
+                $endelseif
+            $endif
+        $endelseif
+    $endIf
+$endIf
+
+
