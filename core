@@ -38,3 +38,46 @@ Use this command to set the time!
 `!mq transday
 Use this command to activate, deactivate, and set the transient daily!]
 $endIf
+/*
+new CT CHECK Command
+*/
+$if[$message[1]==clocktower||ct&&$sum[$getUserVar[mqtd];$hour]==12] 
+    $sendMessage[The clock tower currently reads:
+$formatDate[$dateStamp]
+$if[$getUserVar[mqtdm]==0]$if[$sum[$get$getUserVar[mqtd];$hour]>12]$sum[$getUserVar[mqtd];$hour;-12]:$minute pm$elseif[$sum[$getUserVar[mqtd];$elseif[$getUserVar[mqtdm]==1&&$hour>29]
+To change the time, please use the following command:
+    
+!mq settime
+https://tenor.com/bfpWJ.gif]
+    $elseif[$message[1]==clocktower||ct&&$sum[$getUserVar[mqtd];$hour]>12] 
+        $sendMessage[The clock tower currently reads:
+$formatDate[$dateStamp]
+$sub[$sum[$getUserVar[mqtd];$hour];12]:$minute pm
+
+To change the time, please use the following command:
+    
+!mq settime
+https://tenor.com/bfpWJ.gif]
+    $endelseif
+$endif
+$if[$message[1]==clocktower||$message[1]==ct&&$sum[$getUserVar[mqtd];$hour]<12]
+    $if[$sum[$getUserVar[mqtd];$hour]==0]
+        $sendMessage[The clock tower currently reads:
+$formatDate[$dateStamp]
+12:$minute am
+
+To change the time, please use the following command:
+    
+!mq settime
+https://tenor.com/bfpWJ.gif]
+        $else
+            $sendMessage[The clock tower currently reads:
+$formatDate[$dateStamp]
+$sum[$getUserVar[mqtd];$hour]:$minute am
+
+To change the time, please use the following command:
+    
+!mq settime
+https://tenor.com/bfpWJ.gif]
+    $endIf
+$endIf
