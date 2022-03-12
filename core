@@ -39,7 +39,7 @@ Use this command to set the time!
 Use this command to activate, deactivate, and set the transient daily!]
 $endIf
 /*
-new CT CHECK Command
+OLDY-old CT CHECK Command
 */
 $if[$message[1]==clocktower||ct&&$sum[$getUserVar[mqtd];$hour]==12] 
     $sendMessage[The clock tower currently reads:
