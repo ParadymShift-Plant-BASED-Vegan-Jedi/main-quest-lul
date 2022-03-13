@@ -200,7 +200,7 @@ https://tenor.com/bfpWJ.gif]
  
  OLDLY OLD Ct check  
  
- */
+
    $if[$message[1]==clocktower||ct&&$sum[$getUserVar[mqtd];$hour]==12] 
     $sendMessage[The clock tower currently reads:
 $formatDate[$dateStamp]
@@ -240,4 +240,4 @@ To change the time, please use the following command:
 !mq settime
 https://tenor.com/bfpWJ.gif]
     $endIf
-$endIf
+$endIf */
