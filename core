@@ -46,17 +46,17 @@ LATEST CT CHECK CMD
 /*
 $if[$message[1]==ct||$message[1]==clocktower]
     $if[$getUserVar[mqtdm]==0]/*                             Whenever the minutes are neither ahead nor behind, the following code is run:                      */
-        $if[$sum[$getUserVar[mqtd];$hour]>24]/*                            Also, if the differential is less than 24 hours, the following code will be run       */
-            $if[day==30&&$month==September||$month==April||$month==June||$month==November]
+        $if[$sum[$getUserVar[mqtd];$hour]>23]/*                            Also, if the time after the differential is at HOUR 24 or MORE ahead (meaning after the time differential, it is the NEXT calendar day, the following code will be run:       */
+            $if[day==30&&$month==September||$month==April||$month==June||$month==November]/*              More specifically, all months with 30 days and it being day 30 (meaning, being the next calendar day means being the next month), the following code will be run:         */
                 $sendMessage[The clock tower currently reads:
-$if[$day[yes]==Monday]Tuesday$elseif[$day[yes]==Tuesday]Wednesday$endelseif$elseif[$day[yes]==Wednesday]Thursday$endelseif$elseif[$day[yes]==Thursday]Friday$endelseif$elseif[$day[yes]==Friday]Saturday$endelseif$elseif[$day[yes]==Saturday]Sunday$endelseif$elseif[$day[yes]==Sunday]Monday$endelseif$endif, 1 $if[$month==September]October$elseif[$month==April]May$endelseif$elseif[$month==June]July$endelseif$elseif[$month==November]December$endelseif$endif $year
-$if[$sum[$getUserVar[mqtd];$hour]>35]$sum[$getUserVar[mqtd];$hour;-24]:$minute pm$elseif[$sum[$getUserVar[mqtd];$hour]<36]$sum[$getUserVar[mqtd];$hour;-24]:$hour am$endelseif$elseif[$sum[$getUserVar[mqtd];$hour]>38]ERROR mqtd advanced diff contradiction;14MAX.$endelseif$endif
+$if[$day[yes]==Monday]Tuesday$elseif[$day[yes]==Tuesday]Wednesday$endelseif$elseif[$day[yes]==Wednesday]Thursday$endelseif$elseif[$day[yes]==Thursday]Friday$endelseif$elseif[$day[yes]==Friday]Saturday$endelseif$elseif[$day[yes]==Saturday]Sunday$endelseif$elseif[$day[yes]==Sunday]Monday$endelseif$endif, 1 $if[$month==September]October$elseif[$month==April]May$endelseif$elseif[$month==June]July$endelseif$elseif[$month==November]December$endelseif$endif $year/*This code is simple and will just switch the day with the next day and the month with the next month   */
+$if[$sum[$getUserVar[mqtd];$hour]>35]$sum[$getUserVar[mqtd];$hour;-24]:$minute pm$elseif[$sum[$getUserVar[mqtd];$hour]<36]$sum[$getUserVar[mqtd];$hour;-24]:$hour am$endelseif$elseif[$sum[$getUserVar[mqtd];$hour]>38]ERROR mqtd advanced diff contradiction;14MAX.$endelseif$endif/*  This code is simple as well, and merely checks for the time based on whether it slots into am or pm with respect to anywhere from the latest time zone to the earliest relevant timezone. It even has an error if there is somehow a timezone input which is beyond the range of the maximum furtherst timezone   */
 
 To change the time, please use the following command:
     
 !mq settime
 https://tenor.com/bfpWJ.gif]
-                $elseif[$month==December&&$day==31]
+                $elseif[$month==December&&$day==31]/*     If the next day means that it's the following year, rather than the previous 30 day months on day 30, this is the happy new years code:   */
                     $sendMessage[HAPPY $sum[1;$year] NEW YEARS $mention!
 
 The clock tower currently reads:
@@ -68,9 +68,9 @@ To change the time, please use the following command:
 !mq settime
 https://tenor.com/bfpWJ.gif]
                 $endelseif
-                $elseif[$month==January||$month==February||$month==March||$month==May||$month==July||$month==August||$month==September||$month==October&&$day==31]
+                $elseif[$month==January||$month==March||$month==May||$month==July||$month==August||$month==September||$month==October&&$day==31]
                     $sendMessage[The clock tower currently reads:
-$if[$day[yes]==Monday]Tuesday$elseif[$day[yes]==Tuesday]Wednesday$endelseif$elseif[$day[yes]==Wednesday]Thursday$endelseif$elseif[$day[yes]==Thursday]Friday$endelseif$elseif[$day[yes]==Friday]Saturday$endelseif$elseif[$day[yes]==Saturday]Sunday$endelseif$elseif[$day[yes]==Sunday]Monday$endelseif$endif, 1 $if[$month==January]February$elseif[$month==February]March$endelseif$elseif[$month==March]April$endelseif$elseif[$month==May]June$endelseif$elseif[$month==July]August$endelseif$elseif[$month==August]September$endelseif$elseif[$month==October]November$endelseif$endif $year
+$if[$day[yes]==Monday]Tuesday$elseif[$day[yes]==Tuesday]Wednesday$endelseif$elseif[$day[yes]==Wednesday]Thursday$endelseif$elseif[$day[yes]==Thursday]Friday$endelseif$elseif[$day[yes]==Friday]Saturday$endelseif$elseif[$day[yes]==Saturday]Sunday$endelseif$elseif[$day[yes]==Sunday]Monday$endelseif$endif, 1 $if[$month==January]February$elseif[$month==March]April$endelseif$elseif[$month==May]June$endelseif$elseif[$month==July]August$endelseif$elseif[$month==August]September$endelseif$elseif[$month==October]November$endelseif$endif $year
 $if[$sum[$getUserVar[mqtd];$hour]>35]$sum[$getUserVar[mqtd];$hour;-24]:$minute pm$elseif[$sum[$getUserVar[mqtd];$hour]<36]$sum[$getUserVar[mqtd];$hour;-24]:$hour am$endelseif$elseif[$sum[$getUserVar[mqtd];$hour]>38]ERROR mqtd advanced diff contradiction;14MAX.$endelseif$endif
 
 To change the time, please use the following command:
@@ -78,7 +78,17 @@ To change the time, please use the following command:
 !mq settime
 https://tenor.com/bfpWJ.gif]
                 $endelseif
-                $else
+                $elseif[$day==28&&$month==February]
+                    $sendMessage[The clock tower currently reads:
+$if[$day[yes]==Monday]Tuesday$elseif[$day[yes]==Tuesday]Wednesday$endelseif$elseif[$day[yes]==Wednesday]Thursday$endelseif$elseif[$day[yes]==Thursday]Friday$endelseif$elseif[$day[yes]==Friday]Saturday$endelseif$elseif[$day[yes]==Saturday]Sunday$endelseif$elseif[$day[yes]==Sunday]Monday$endelseif$endif, 1 February $year
+$if[$sum[$getUserVar[mqtd];$hour]>35]$sum[$getUserVar[mqtd];$hour;-24]:$minute pm$elseif[$sum[$getUserVar[mqtd];$hour]<36]$sum[$getUserVar[mqtd];$hour;-24]:$hour am$endelseif$elseif[$sum[$getUserVar[mqtd];$hour]>38]ERROR mqtd advanced diff contradiction;14MAX.$endelseif$endif
+
+To change the time, please use the following command:
+    
+!mq settime
+https://tenor.com/bfpWJ.gif]
+                $endelseif
+                $else/*For all else, it must not be the next month, since I've already covered the 30 days months, 31 day months, and february. I'll nest in the code for leap years later. Therefore, a simple math calculation can get me to the answers I am seeking here without any month changes      */
                     $sendMessage[The clock tower currently reads:
 
 $if[$day[yes]==Monday]Tuesday$elseif[$day[yes]==Tuesday]Wednesday$endelseif$elseif[$day[yes]==Wednesday]Thursday$endelseif$elseif[$day[yes]==Thursday]Friday$endelseif$elseif[$day[yes]==Friday]Saturday$endelseif$elseif[$day[yes]==Saturday]Sunday$endelseif$elseif[$day[yes]==Sunday]Monday$endelseif$endif, $sum[$day;1] $month $year
@@ -88,14 +98,10 @@ To change the time, please use the following command:
     
 !mq settime
 https://tenor.com/bfpWJ.gif]
-                $endIf
             $endIf
+        $endIf/*                        From here on out, the code that will be run is for when it is NOT the next day, aka the time after the differential is LESS than 23 hours      */
         $if[$sum[$getUserVar[mqtd];$hour]==24]
-            $if[day==30&&$month==September||$month==April||$month==June||$month==November]
-                $sendMessage[The clock tower currently reads:
-$if[$day[yes]==Monday]Tuesday$elseif[$day[yes]==Tuesday]Wednesday$endelseif$elseif[$day[yes]==Wednesday]Thursday$endelseif$elseif[$day[yes]==Thursday]Friday$endelseif$elseif[$day[yes]==Friday]Saturday$endelseif$elseif[$day[yes]==Saturday]Sunday$endelseif$elseif[$day[yes]==Sunday]Monday$endelseif$endif, 1 $if[$month==September]October$elseif[$month==April]May$endelseif$elseif[$month==June]July$endelseif$elseif[$month==November]December$endelseif$endif $year
-
-I LEFT OFF RIGHT HERE THINKING ABOUT 24 HOURS BEING UNIQUE IN THAT IT NEEDS -12 YET STILL REQUIRES A DIFFERENT DAY AND AM/PM BINARY
+            
 
 $sum[$getUserVar[mqtd];$hour;-24]:$minute pm$elseif[$sum[$getUserVar[mqtd];$hour]<36]$sum[$getUserVar[mqtd];$hour;-24]:$hour am$endelseif$elseif[$sum[$getUserVar[mqtd];$hour]>38]ERROR mqtd advanced diff contradiction;14MAX.$endelseif$endif
 
@@ -136,12 +142,66 @@ To change the time, please use the following command:
 !mq settime
 https://tenor.com/bfpWJ.gif]
             $endIf
-        $endIf
+        $endIf/*                                    If the time after the differential is NOT at hour 24 or more, then the following code will run:                    */
+    $if[$sum[$getUserVar[mqtd];$hour]<24&&$sum[$getUserVar[mqtd];$hour]>-1]
+        $if[$sum[$getUserVar[mqtd];$hour]>11]
+            $sendMessage[The clock tower currently reads:
+$formatDate[$dateStamp]
+$sum[$getUserVar[mqtd];$hour]:$minute pm
 
-/*
-OLDY-old CT CHECK Command
-*/
-$if[$message[1]==clocktower||ct&&$sum[$getUserVar[mqtd];$hour]==12] 
+To change the time, please use the following command:
+
+!mq settime
+https://tenor.com/bfpWJ.gif]
+            $elseif[$sum[$getUserVar[mqtd];$hour]<12]
+                $sendMessage[The clock tower currently reads:
+$formatDate[$dateStamp]
+$sum[$getUserVar[mqtd];$hour]:$minute pm
+
+To change the time, please use the following command:
+
+!mq settime
+https://tenor.com/bfpWJ.gif]
+            $endelseif
+        $endIf
+    $endIf
+    $if[$sum[$getUserVar[mqtd];$hour]<0]
+        $if[$day==1]
+            $if[$month==January]
+                $sendMessage[HAPPY $year NEW YEARS EVE!
+The clock tower currently reads:
+$if[$day[yes]==Monday]Sunday$elseif[$day[yes]==Tuesday]Monday$endelseif$elseif[$day[yes]==Wednesday]Tuesday$endelseif$elseif[$day[yes]==Thursday]Wednesday$endelseif$elseif[$day[yes]==Friday]Thursday$endelseif$elseif[$day[yes]==Saturday]Friday$endelseif$elseif[$day[yes]==Sunday]Saturday$endelseif$endif, 31 December $sum[$year;-1]
+
+To change the time, please use the following command:
+
+!mq settime
+https://tenor.com/bfpWJ.gif]
+                $else
+                $sendMessasge[The clock tower currently reads:
+$if[$day[yes]==Monday]Sunday$elseif[$day[yes]==Tuesday]Monday$endelseif$elseif[$day[yes]==Wednesday]Tuesday$endelseif$elseif[$day[yes]==Thursday]Wednesday$endelseif$elseif[$day[yes]==Friday]Thursday$endelseif$elseif[$day[yes]==Saturday]Friday$endelseif$elseif[$day[yes]==Sunday]Saturday$endelseif$endif, $if[$month==September||$month==April||$month==June||$month==November]30$elseif[$month==March||$month==May||$month==July||$month==August||$month==October||$month==December]31$endelseif$else28$endIf $if[$month==February]January$elseif[$month==March]February$endelseif$elseif[$month==April]March$endelseif$elseif[$month==May]April$endelseif$elseif[$month==June]May$endelseif$elseif[$month==July]June$endelseif$elseif[$month==August]July$endelseif$elseif[$month==September]August$endelseif$elseif[$month==October]September$endelseif$elseif[$month==November]October$endelseif$elseif[$month==December]November$endelseif$endif $year
+
+To change the time, please use the following command:
+
+!mq settime
+https://tenor.com/bfpWJ.gif]
+            $endIf
+            $else
+                $sendMessage[The clock tower currently reads:
+$if[$day[yes]==Monday]Sunday$elseif[$day[yes]==Tuesday]Monday$endelseif$elseif[$day[yes]==Wednesday]Tuesday$endelseif$elseif[$day[yes]==Thursday]Wednesday$endelseif$elseif[$day[yes]==Friday]Thursday$endelseif$elseif[$day[yes]==Saturday]Friday$endelseif$elseif[$day[yes]==Sunday]Saturday$endelseif$endif, $month $sum[$day;-1] $year
+
+To change the time, please use the following command:
+
+!mq settime
+https://tenor.com/bfpWJ.gif]
+        $elseif[mqtdm]==-1]
+            $if[$sum[$minute;-30]<0]
+                /* I have taken a pause right here */
+ /*
+ 
+ OLDLY OLD Ct check  
+ 
+ */
+   $if[$message[1]==clocktower||ct&&$sum[$getUserVar[mqtd];$hour]==12] 
     $sendMessage[The clock tower currently reads:
 $formatDate[$dateStamp]
 $if[$getUserVar[mqtdm]==0]$if[$sum[$get$getUserVar[mqtd];$hour]>12]$sum[$getUserVar[mqtd];$hour;-12]:$minute pm$elseif[$sum[$getUserVar[mqtd];$elseif[$getUserVar[mqtdm]==1&&$hour>29]
