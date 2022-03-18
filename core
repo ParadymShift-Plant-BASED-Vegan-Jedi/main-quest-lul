@@ -51,8 +51,11 @@ For more Relapse Defense information, please use the following command:
 !mq$endelseif$elseIf[$getUserVar[mqrd]==true]You have now deactivated relapse defense.$endelseif$endIf]
         $if[$getUserVar[mqrd]==true]
             $setUserVar[mqrd;false]
-            $elseif[$getUserVar[mqtd]==false]
-                $setUserVar[mqtd]==true
+            $elseif[$getUserVar[mqrd]==false]
+                $setUserVar[mqrd]==true
+                $if[$getUserVar[mqtd]==0&&$getUserVar[mqtdm]==0]
+                    $setUserVar[rdbegd;$formatDate[$dateStamp]
+                    $setUserVar[ /*I left off right here */
                 $if[$sum[$getUserVar[mqtd;$hour]>-1&&$sum[mqtdm;$minute]>-1]
                     
                 
