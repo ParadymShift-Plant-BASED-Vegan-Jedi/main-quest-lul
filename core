@@ -2,12 +2,9 @@ $if[$message[1]==&&$getUserVar[reg]==undefined]
     $setUserVar[reg;1]
     $setUserVar[mqlvl;1]
     $setUserVar[mqxp;50]
- /* $setUserVar[mqtimeh;0] 
-    $setUserVar[mqtimem;0]
-    $setUserVar[mqnth;0] 
-    $setUserVar[mqntm;0] */
     $setUserVar[mqtd;0]
     $setUserVar[mqtdm;0]
+    $setUserVar[mqrd;false]
     $sendMessage[Congratulations, $nickname[$authorID]! 🎉😄👏👏 
 You're now officially registered for Main Quest: Level Up Life! 
      
@@ -17,17 +14,21 @@ For a guide of all commands, use the following command:
     $elseif[$message[1]==&&$getUserVar[reg]==1]
     $sendMessage[$nickname[$authorID] is already registered on Main Quest! 
      
-Level: $getUserVar[mqlvl]]
+Level: $getUserVar[mqlvl]
+$if[$getUserVar[mqrd]==true]Current Streak: $getUserVar[mqrs]]$elseif[$getUserVar[mqrd]==false]Relapse defense is currently disabled. 
+
+To enable relapse defense, simply use the following command:
+!mq reldefense$endelseif$endIf]
     $endelseif
 $endIf
 $if[$message[1]==guide]
    $sendMessage[Here's a list of all Main Quest commands! 📜
    
 `!mq`
-Use this command to register!
+Use this command to register or to come back to the MainQuest HQ!
 
 `!mq guide`
-Use this command to output this information again
+Use this command to output this information again.
 
 `!mq clocktower`
 Use this command to check the time!
@@ -36,5 +37,22 @@ Use this command to check the time!
 Use this command to set the time!
 
 `!mq transday
-Use this command to activate, deactivate, and set the transient daily!]
+Use this command to activate, deactivate, and set the transient daily!
+
+!mq reldefense
+Use this command to toggle Relapse Defense from active to inactive or visa versa.]
 $endIf
+$if[$message[1]==reldefense||$message[1]==reldef||$message[1]==rd]
+    $if[$message[2]!=info]
+        $sendMessage[$if[$getUserVar[mqrd]==false]Relapse Defense has now been activated! Your relapses and triggers will now be recordable; and, as you record them, they will be automatically tracked for you using razors-edge computational powers. 
+    
+For more Relapse Defense information, please use the following command:
+!mq reldef info$elseIf[$getUserVar[mqrd]==undefined]You first need to register with Main Quest before you may activate the Relapse Defense by using the following command:
+!mq$endelseif$elseIf[$getUserVar[mqrd]==true]You have now deactivated relapse defense.$endelseif$endIf]
+        $if[$getUserVar[mqrd]==true]
+            $setUserVar[mqrd;false]
+            $elseif[$getUserVar[mqtd]==false]
+                $setUserVar[mqtd]==true
+                $if[$sum[$getUserVar[mqtd;$hour]>-1&&$sum[mqtdm;$minute]>-1]
+                    
+                
