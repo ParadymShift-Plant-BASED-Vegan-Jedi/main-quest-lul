@@ -54,8 +54,16 @@ For more Relapse Defense information, please use the following command:
             $elseif[$getUserVar[mqrd]==false]
                 $setUserVar[mqrd]==true
                 $if[$getUserVar[mqtd]==0&&$getUserVar[mqtdm]==0]
-                    $setUserVar[rdbegd;$formatDate[$dateStamp]
-                    $setUserVar[ /*I left off right here */
-                $if[$sum[$getUserVar[mqtd;$hour]>-1&&$sum[mqtdm;$minute]>-1]
+                    $setUserVar[rdbegd;$formatDate[$dateStamp]]
+                    $setUserVar[rdbegt;$if[$hour>11]$sum[$hour;-12]:$minute pm$elseIf[$hour<12]$hour:$minute am$endelseif$endIf]
+                    $elseif[$sum[$getUserVar[mqtd];$hour]>-1&&$getUserVar[mqtdm]==0]
+                        $if[$sum[$getUserVar[mqtd];$hour]>12]
+                            $setUserVar[$sum[$getUserVar[mqtd];-12;$hour]:$minute pm]
+                            $elseIf[$sum[$getUserVar[mqtd];$hour]>14]
+                                $sendMessage[ERROR. Timezone does not exist. Please make sure that the clock tower is accurate]
+                            $endelseif
+                            $elseIf[/* I take pause here */
+                            
+                
                     
                 
