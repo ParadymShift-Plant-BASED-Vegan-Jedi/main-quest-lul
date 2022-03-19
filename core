@@ -52,18 +52,26 @@ For more Relapse Defense information, please use the following command:
         $if[$getUserVar[mqrd]==true]
             $setUserVar[mqrd;false]
             $elseif[$getUserVar[mqrd]==false]
-                $setUserVar[mqrd]==true
+                $setUserVar[mqrd;true]
                 $if[$getUserVar[mqtd]==0&&$getUserVar[mqtdm]==0]
                     $setUserVar[rdbegd;$formatDate[$dateStamp]]
                     $setUserVar[rdbegt;$if[$hour>11]$sum[$hour;-12]:$minute pm$elseIf[$hour<12]$hour:$minute am$endelseif$endIf]
                     $elseif[$sum[$getUserVar[mqtd];$hour]>-1&&$getUserVar[mqtdm]==0]
                         $if[$sum[$getUserVar[mqtd];$hour]>12]
-                            $setUserVar[$sum[$getUserVar[mqtd];-12;$hour]:$minute pm]
-                            $elseIf[$sum[$getUserVar[mqtd];$hour]>14]
-                                $sendMessage[ERROR. Timezone does not exist. Please make sure that the clock tower is accurate]
+                            $if[$sum[$getUserVar[mqtd];$hour]<24]
+                                $if[[$getUserVar[mqtd]>14]
+                                    $sendMessage[ERROR. Timezone does not exist. Please make sure that the clock tower is accurate!]
+                                $endif
+                            $setUserVar[rdbegd;$formatDate[$dateStamp]]
+                            $setUserVar[rdbegt;$sum[$getUserVar[mqtd];-12;$hour]:$minute pm]
+                                $elseif[/* I took a small pause here to consider writing some different code */]
+                                $endIf
+                            $elseif[$sum[$getUserVar[mqtd];$hour]==12]
+                            $setUserVar[rdbegt;12:$minute pm]
                             $endelseif
-                            $elseIf[/* I take pause here */
-                            
+                            $elseif[$sum[$getUserVar[mqtd];$hour]<12]
+                                $setUserVar[rdbegt;$sum[$getUserVar[mqtd];$hour]:$minute am]
+                            $endelseif
                 
                     
                 
