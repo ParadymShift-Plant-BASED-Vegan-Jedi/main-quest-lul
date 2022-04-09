@@ -49,6 +49,9 @@ $if[$message[1]==reldefense||$message[1]==reldef||$message[1]==rd]
 For more Relapse Defense information, please use the following command:
 !mq reldef info$elseIf[$getUserVar[mqrd]==undefined]You first need to register with Main Quest before you may activate the Relapse Defense by using the following command:
 !mq$endelseif$elseIf[$getUserVar[mqrd]==true]You have now deactivated relapse defense.$endelseif$endIf]
+        $if[$getUserVar[mqrd]==undefined]
+            $stop
+        $endIf
         $if[$getUserVar[mqrd]==true]
             $setUserVar[mqrd;false]
             $elseif[$getUserVar[mqrd]==false]
@@ -72,7 +75,14 @@ For more Relapse Defense information, please use the following command:
                                 $setUserVar[rdbegd;$formatDate[$dateStamp]]
                                 $setUserVar[rdbegt;12:$minute pm]
                             $endelseIf
-                            $elseIf[$sum[$getUserVar[/*took a pause here, might sleep  */
+                            $elseIf[$sum[$getUserVar[mqtd];$hour]<12]
+                                $setUserVar[rdbegd;$formatDate[$dateStamp]]
+                                $setUserVar[rdbegt;$sum[$getUserVar[mqtd];$hour]:$minute am]
+                            $endelseif
+                        $endIf
+                    $endelseIf
+                    $elseIf[$sum[$getUserVar[mqtd];$hour]<0&&$getUserVar[mqtdm]==0]
+                        /* Took a pause here to eat  */
                                 
                                 
                                 
