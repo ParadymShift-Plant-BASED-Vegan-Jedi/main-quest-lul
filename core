@@ -76,23 +76,20 @@ For more Relapse Defense information, please use the following command:
                                 $setUserVar[rdbegt;12:$minute pm]
                             $endelseIf
                             $elseIf[$sum[$getUserVar[mqtd];$hour]<12]
+                                $if[$getUserVar[mqtd]>14]
+                                    $sendMessage[ERROR. Timezone does not exist. Please make sure that the clock tower is accurate!]
+                                $endIf
                                 $setUserVar[rdbegd;$formatDate[$dateStamp]]
                                 $setUserVar[rdbegt;$sum[$getUserVar[mqtd];$hour]:$minute am]
                             $endelseif
                         $endIf
                     $endelseIf
                     $elseIf[$sum[$getUserVar[mqtd];$hour]<0&&$getUserVar[mqtdm]==0]
-                        /* Took a pause here to eat  */
-                                
-                                
-                                
-                                $endIf
-                            $elseif[$sum[$getUserVar[mqtd];$hour]==12]
-                            $setUserVar[rdbegt;12:$minute pm]
-                            $endelseif
-                            $elseif[$sum[$getUserVar[mqtd];$hour]<12]
-                                $setUserVar[rdbegt;$sum[$getUserVar[mqtd];$hour]:$minute am]
-                            $endelseif
-                
-                    
-                
+                        $if[$getUserVar[mqtd]<-10]
+                            $sendMessage[ERROR. Timezone does not exist. Please make sure that the clock tower is accurate!]
+                        $endIf
+                        $if[$day==01]
+                            $setUserVar[rdbegd;$if[$day[yes]==Friday]Thursday$elseif[$day[yes]==Saturday]Friday$endelseif$elseif[$day[yes]==Sunday]Saturday$endelseIf$elseif[$day[yes]==Monday]Sunday$endelseif$elseif[$day[yes]==Tuesday]Monday$endelseif$elseif[$day[yes]==Wednesday]Tuesday$endelseif$elseif[$day[yes]==Thursday]Wednesday$endelseif$endif, $if[$month==January]31 December$elseif[$month==February]31 January$endelseif$elseif[$month==March]$if[$year==2024]29 February$elseif[$year==2028]29 February$endelseif$elseif[$year==2032]29 February$endelseif$elseif[$year==2036]29 February$endelseif$elseif[$year==2040]29 February$endelseif$elseif[$year==2044]29 February$endelseif$else28 February$endif$endelseif/* paused here to consult with help about my $else   */
+                        
+                        
+                        
