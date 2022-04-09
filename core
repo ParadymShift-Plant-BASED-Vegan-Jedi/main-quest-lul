@@ -55,16 +55,27 @@ For more Relapse Defense information, please use the following command:
                 $setUserVar[mqrd;true]
                 $if[$getUserVar[mqtd]==0&&$getUserVar[mqtdm]==0]
                     $setUserVar[rdbegd;$formatDate[$dateStamp]]
-                    $setUserVar[rdbegt;$if[$hour>11]$sum[$hour;-12]:$minute pm$elseIf[$hour<12]$hour:$minute am$endelseif$endIf]
+                    $setUserVar[rdbegt;$if[$hour>12]$sum[$hour;-12]:$minute pm$elseIf[$hour<12]$hour:$minute am$endelseif$elseif[$hour==12]12:$minute pm$endelseif$endIf]
                     $elseif[$sum[$getUserVar[mqtd];$hour]>-1&&$getUserVar[mqtdm]==0]
                         $if[$sum[$getUserVar[mqtd];$hour]>12]
                             $if[$sum[$getUserVar[mqtd];$hour]<24]
                                 $if[[$getUserVar[mqtd]>14]
                                     $sendMessage[ERROR. Timezone does not exist. Please make sure that the clock tower is accurate!]
                                 $endif
-                            $setUserVar[rdbegd;$formatDate[$dateStamp]]
-                            $setUserVar[rdbegt;$sum[$getUserVar[mqtd];-12;$hour]:$minute pm]
-                                $elseif[/* I took a small pause here to consider writing some different code */]
+                                $setUserVar[rdbegd;$formatDate[$dateStamp]]
+                                $setUserVar[rdbegt;$sum[$getUserVar[mqtd];-12;$hour]:$minute pm]
+                            $endIf
+                            $elseIf[$sum[$getUserVar[mqtd];$hour]==12]
+                                $if[$getUserVar[mqtd]>14]
+                                    $sendMessage[ERROR. Timezone does not exist. Please make sure that the clock tower is accurate!]
+                                $endIf
+                                $setUserVar[rdbegd;$formatDate[$dateStamp]]
+                                $setUserVar[rdbegt;12:$minute pm]
+                            $endelseIf
+                            $elseIf[$sum[$getUserVar[/*took a pause here, might sleep  */
+                                
+                                
+                                
                                 $endIf
                             $elseif[$sum[$getUserVar[mqtd];$hour]==12]
                             $setUserVar[rdbegt;12:$minute pm]
