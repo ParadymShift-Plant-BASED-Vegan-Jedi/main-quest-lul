@@ -59,37 +59,50 @@ For more Relapse Defense information, please use the following command:
                 $if[$getUserVar[mqtd]==0&&$getUserVar[mqtdm]==0]
                     $setUserVar[rdbegd;$formatDate[$dateStamp]]
                     $setUserVar[rdbegt;$if[$hour>12]$sum[$hour;-12]:$minute pm$elseIf[$hour<12]$hour:$minute am$endelseif$elseif[$hour==12]12:$minute pm$endelseif$endIf]
+                    $sendMessage[Relapse tracker has begun tracking at $getUserVar[rdbegd] $getUserVar[rdbegt]]
                     $elseif[$sum[$getUserVar[mqtd];$hour]>-1&&$getUserVar[mqtdm]==0]
                         $if[$sum[$getUserVar[mqtd];$hour]>12]
                             $if[$sum[$getUserVar[mqtd];$hour]<24]
                                 $if[[$getUserVar[mqtd]>14]
                                     $sendMessage[ERROR. Timezone does not exist. Please make sure that the clock tower is accurate!]
+                                    $stop
                                 $endif
                                 $setUserVar[rdbegd;$formatDate[$dateStamp]]
                                 $setUserVar[rdbegt;$sum[$getUserVar[mqtd];-12;$hour]:$minute pm]
+                                $sendMessage[Relapse tracker has begun tracking at $getUserVar[rdbegd] $getUserVar[rdbegt].]
                             $endIf
                             $elseIf[$sum[$getUserVar[mqtd];$hour]==12]
                                 $if[$getUserVar[mqtd]>14]
                                     $sendMessage[ERROR. Timezone does not exist. Please make sure that the clock tower is accurate!]
+                                    $stop
                                 $endIf
                                 $setUserVar[rdbegd;$formatDate[$dateStamp]]
                                 $setUserVar[rdbegt;12:$minute pm]
+                                $sendMessage[Relapse tracker has begun tracking at $getUserVar[rdbegd] $getUserVar[rdbegt].]
                             $endelseIf
                             $elseIf[$sum[$getUserVar[mqtd];$hour]<12]
                                 $if[$getUserVar[mqtd]>14]
                                     $sendMessage[ERROR. Timezone does not exist. Please make sure that the clock tower is accurate!]
+                                    $stop
                                 $endIf
                                 $setUserVar[rdbegd;$formatDate[$dateStamp]]
                                 $setUserVar[rdbegt;$sum[$getUserVar[mqtd];$hour]:$minute am]
+                                $sendMessage[Relapse tracker has begun tracking at $getUserVar[rdbegd] $getUserVar[rdbegt].]
                             $endelseif
                         $endIf
                     $endelseIf
                     $elseIf[$sum[$getUserVar[mqtd];$hour]<0&&$getUserVar[mqtdm]==0]
                         $if[$getUserVar[mqtd]<-10]
                             $sendMessage[ERROR. Timezone does not exist. Please make sure that the clock tower is accurate!]
+                            $stop
                         $endIf
                         $if[$day==01]
-                            $setUserVar[rdbegd;$if[$day[yes]==Friday]Thursday$elseif[$day[yes]==Saturday]Friday$endelseif$elseif[$day[yes]==Sunday]Saturday$endelseIf$elseif[$day[yes]==Monday]Sunday$endelseif$elseif[$day[yes]==Tuesday]Monday$endelseif$elseif[$day[yes]==Wednesday]Tuesday$endelseif$elseif[$day[yes]==Thursday]Wednesday$endelseif$endif, $if[$month==January]31 December$elseif[$month==February]31 January$endelseif$elseif[$month==March]$if[$checkContains[$math[$year/4];.]==false]29 February$else 28 February$endif$endelseif$elseif[$month==April]31 March$endelseif$elseif[$month==May]30 April$endelseif$elseif[$month==June]31 May$endelseif$elseif[/*taking a break, might sleep */
-                        
-                        
+                            $setUserVar[rdbegd;$if[$day[yes]==Friday]Thursday$elseif[$day[yes]==Saturday]Friday$endelseif$elseif[$day[yes]==Sunday]Saturday$endelseIf$elseif[$day[yes]==Monday]Sunday$endelseif$elseif[$day[yes]==Tuesday]Monday$endelseif$elseif[$day[yes]==Wednesday]Tuesday$endelseif$elseif[$day[yes]==Thursday]Wednesday$endelseif$endif, $if[$month==January]31 December$elseif[$month==February]31 January$elseif[$month==March]$if[$checkContains[$math[$year/4];.]==false]29 February$else 28 February$endif$endelseif$elseif[$month==April]31 March$endelseif$elseif[$month==May]30 April$endelseif$elseif[$month==June]31 May$endelseif$elseif[$month==July]30 June$endelseif$elseif[$month==August]31 July$endelseif$elseif[$month==September]31 August$endelseif$elseif[$month==October]30 September$endelseif$elseif[$month==November]31 October$endelseif$elseif[$month==December]30 November$endelseif$endif $if[$month==January]$sum[$year;-1]$elseif[$month!=January]$year$endelseif$endif]
+                            $setUserVar[rdbegt;$sum[$getUserVar[mqtd];$hour;12]:$minute pm]
+                            $sendMessage[Relapse tracker has begun tracking at $getUserVar[rdbegd] $getUserVar[rdbegt].]
+                            $else
+                                $setUserVar[rdbegd;$if[$day[yes]==Friday]Thursday$elseif[$day[yes]==Saturday]Friday$endelseif$elseif[$day[yes]==Sunday]Saturday$endelseIf$elseif[$day[yes]==Monday]Sunday$endelseif$elseif[$day[yes]==Tuesday]Monday$endelseif$elseif[$day[yes]==Wednesday]Tuesday$endelseif$elseif[$day[yes]==Thursday]Wednesday$endelseif$endif, $sum[$day;-1] $month $year]
+                                $setUserVar[rdbegt;$sum[$getUserVar[mqtd];$hour;12]:$minute pm]
+                                $sendMessage[Relapse tracker has begun tracking at $getUserVar[rdbegd] $getUserVar[rdbegt].]
+                        /* Decided to take a break here as I feel like I'm getting lost in the sauce. I wanna read from top to bottom to make sure that I haven't overlooked next day stuff for mqtd. */
                         
