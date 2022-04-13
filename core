@@ -87,7 +87,54 @@ For more Relapse Defense information, please use the following command:
                                                 $sendMessage[Relapse tracker has begun tracking at $getUserVar[rdbegd] $getUserVar[rdbegt]. $if[$month==March] No joke, the relapse tracker is properly running!$endif]
                                             $endelseif
                                             $elseif[$day==28||$day==29&&$month==February]
-                                                /* took a break here for sleep    */
+                                                $setUserVar[rdbegd;$if[$day[yes]==Monday]Tuesday$elseif[$day[yes]==Tuesday]Wednesday$endelseif$elseif[$day[yes]==Wednesday]Thursday$endelseif$elseif[$day[yes]==Thursday]Friday$endelseif$elseif[$day[yes]==Friday]Saturday$endelseif$elseif[$day[yes]==Saturday]Sunday$endelseif$elseif[$day[yes]==Sunday]Monday$endelseif$endif, 1 March $year]
+                                                $setUserVar[rdbegt;$sum[$hour;$getUserVar[mqtd];-24]:$minute am]
+                                                $sendMessage[Relapse tracker has begun tracking at $getUserVar[rdbegd] $getUserVar[rdbegt].]
+                                            $endelseif
+                                        $endIf
+                                        $elseif[$sum[$getUserVar[mqtd];$hour]==36]
+                                            $if[$month==September||$month==April||$month==June||$month==November&&$day==30]
+                                                $setUserVar[rdbegd;$if[$day[yes]==Monday]Tuesday$elseif[$day[yes]==Tuesday]Wednesday$endelseif$elseif[$day[yes]==Wednesday]Thursday$endelseif$elseif[$day[yes]==Thursday]Friday$endelseif$elseif[$day[yes]==Friday]Saturday$endelseif$elseif[$day[yes]==Saturday]Sunday$endelseif$elseif[$day[yes]==Sunday]Monday$endelseif$endif, 1 $if[$month==September]October$elseif[$month==April]May$endelseif$elseif[$month==June]July$endelseif$elseif[$month==November]December$endelseif$endif $year]
+                                                $setUserVar[rdbegt;$sum[$hour;$getUserVar[mqtd];-24]:$minute am]
+                                                $sendMessage[Relapse tracker has begun tracking at $getUserVar[rdbegd] $getUserVar[rdbegt]]
+                                                $elseif[$month==December&&$day==31]
+                                                    $setUserVar[rdbegd;$if[$day[yes]==Monday]Tuesday$elseif[$day[yes]==Tuesday]Wednesday$endelseif$elseif[$day[yes]==Wednesday]Thursday$endelseif$elseif[$day[yes]==Thursday]Friday$endelseif$elseif[$day[yes]==Friday]Saturday$endelseif$elseif[$day[yes]==Saturday]Sunday$endelseif$elseif[$day[yes]==Sunday]Monday$endelseif$endif, 1 January $sum[$year;1]]
+                                                    $setUserVar[rdbegt;12:$minute pm]
+                                                    $sendMessage[Relapse tracker has begun tracking at $getUserVar[rdbegd] $getUserVar[rdbegt]. A fresh year is a new opportunity to make this year awesome!]
+                                                $endelseif
+                                                $elseif[$month==January||$month==March||$month==May||$month==July||$month==August||$month==October&&$day==31]
+                                                    $setUserVar[rdbegd;$if[$day[yes]==Monday]Tuesday$elseif[$day[yes]==Tuesday]Wednesday$endelseif$elseif[$day[yes]==Wednesday]Thursday$endelseif$elseif[$day[yes]==Thursday]Friday$endelseif$elseif[$day[yes]==Friday]Saturday$endelseif$elseif[$day[yes]==Saturday]Sunday$endelseif$elseif[$day[yes]==Sunday]Monday$endelseif$endif, 1 $if[$month==January]February$elseif[$month==March]April$endelseif$elseif[$month==May]June$endelseif$elseif[$month==July]August$endelseif$elseif[$month==August]September$endelseif$elseif[$month==October]November$endelseif$endif $year]
+                                                    $setUserVar[rdbegt;12:$minute pm]
+                                                    $sendMessage[Relapse tracker has begun tracking at $getUserVar[rdbegd] $getUserVar[rdbegt]. $if[$month==March] No joke, the relapse tracker is properly running!$endif]
+                                                $endelseif
+                                                $elseif[$day==28||$day==29&&$month==February]
+                                                    $setUserVar[rdbegd;$if[$day[yes]==Monday]Tuesday$elseif[$day[yes]==Tuesday]Wednesday$endelseif$elseif[$day[yes]==Wednesday]Thursday$endelseif$elseif[$day[yes]==Thursday]Friday$endelseif$elseif[$day[yes]==Friday]Saturday$endelseif$elseif[$day[yes]==Saturday]Sunday$endelseif$elseif[$day[yes]==Sunday]Monday$endelseif$endif, 1 March $year]
+                                                    $setUserVar[rdbegt;12:$minute pm]
+                                                    $sendMessage[Relapse tracker has begun tracking at $getUserVar[rdbegd] $getUserVar[rdbegt].]
+                                                $endelseif
+                                            $endIf
+                                        $elseif[$sum[$getUserVar[mqtd];$hour]>36]
+                                            $if[$month==September||$month==April||$month==June||$month==November&&$day==30]
+                                                $setUserVar[rdbegd;$if[$day[yes]==Monday]Tuesday$elseif[$day[yes]==Tuesday]Wednesday$endelseif$elseif[$day[yes]==Wednesday]Thursday$endelseif$elseif[$day[yes]==Thursday]Friday$endelseif$elseif[$day[yes]==Friday]Saturday$endelseif$elseif[$day[yes]==Saturday]Sunday$endelseif$elseif[$day[yes]==Sunday]Monday$endelseif$endif, 1 $if[$month==September]October$elseif[$month==April]May$endelseif$elseif[$month==June]July$endelseif$elseif[$month==November]December$endelseif$endif $year]
+                                                $setUserVar[rdbegt;$sum[$hour;$getUserVar[mqtd];-24]:$minute am]
+                                                $sendMessage[Relapse tracker has begun tracking at $getUserVar[rdbegd] $getUserVar[rdbegt]]
+                                                $elseif[$month==December&&$day==31]
+                                                    $setUserVar[rdbegd;$if[$day[yes]==Monday]Tuesday$elseif[$day[yes]==Tuesday]Wednesday$endelseif$elseif[$day[yes]==Wednesday]Thursday$endelseif$elseif[$day[yes]==Thursday]Friday$endelseif$elseif[$day[yes]==Friday]Saturday$endelseif$elseif[$day[yes]==Saturday]Sunday$endelseif$elseif[$day[yes]==Sunday]Monday$endelseif$endif, 1 January $sum[$year;1]]
+                                                    $setUserVar[rdbegt;$sum[$hour;$getUserVar[mqtd];-12]:$minute pm]
+                                                    $sendMessage[Relapse tracker has begun tracking at $getUserVar[rdbegd] $getUserVar[rdbegt]. A fresh year is a new opportunity to make this year awesome!]
+                                                $endelseif
+                                                $elseif[$month==January||$month==March||$month==May||$month==July||$month==August||$month==October&&$day==31]
+                                                    $setUserVar[rdbegd;$if[$day[yes]==Monday]Tuesday$elseif[$day[yes]==Tuesday]Wednesday$endelseif$elseif[$day[yes]==Wednesday]Thursday$endelseif$elseif[$day[yes]==Thursday]Friday$endelseif$elseif[$day[yes]==Friday]Saturday$endelseif$elseif[$day[yes]==Saturday]Sunday$endelseif$elseif[$day[yes]==Sunday]Monday$endelseif$endif, 1 $if[$month==January]February$elseif[$month==March]April$endelseif$elseif[$month==May]June$endelseif$elseif[$month==July]August$endelseif$elseif[$month==August]September$endelseif$elseif[$month==October]November$endelseif$endif $year]
+                                                    $setUserVar[rdbegt;$sum[$hour;$getUserVar[mqtd];-12]:$minute pm]
+                                                    $sendMessage[Relapse tracker has begun tracking at $getUserVar[rdbegd] $getUserVar[rdbegt]. $if[$month==March] No joke, the relapse tracker is properly running!$endif]
+                                                $endelseif
+                                                $elseif[$day==28||$day==29&&$month==February]
+                                                    $setUserVar[rdbegd;$if[$day[yes]==Monday]Tuesday$elseif[$day[yes]==Tuesday]Wednesday$endelseif$elseif[$day[yes]==Wednesday]Thursday$endelseif$elseif[$day[yes]==Thursday]Friday$endelseif$elseif[$day[yes]==Friday]Saturday$endelseif$elseif[$day[yes]==Saturday]Sunday$endelseif$elseif[$day[yes]==Sunday]Monday$endelseif$endif, 1 March $year]
+                                                    $setUserVar[rdbegt;$sum[$hour;$getUserVar[mqtd];-12]:$minute pm]
+                                                    $sendMessage[Relapse tracker has begun tracking at $getUserVar[rdbegd] $getUserVar[rdbegt].]
+                                                $endelseif
+                                            $endIf
+                                            /* taking a me break here */
                             $endIf
                             $elseIf[$sum[$getUserVar[mqtd];$hour]==12]
                                 $if[$getUserVar[mqtd]>14]
