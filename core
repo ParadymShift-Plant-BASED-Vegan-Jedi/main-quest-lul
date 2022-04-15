@@ -153,25 +153,36 @@ For more Relapse Defense information, please use the following command:
                             $if[$sum[$getUserVar[mqtd];$hour]==23&&$minute>29]
                                  $if[$month==September||$month==April||$month==June||$month==November&&$day==30]
                                     $setUserVar[rdbegd;$if[$day[yes]==Monday]Tuesday$elseif[$day[yes]==Tuesday]Wednesday$endelseif$elseif[$day[yes]==Wednesday]Thursday$endelseif$elseif[$day[yes]==Thursday]Friday$endelseif$elseif[$day[yes]==Friday]Saturday$endelseif$elseif[$day[yes]==Saturday]Sunday$endelseif$elseif[$day[yes]==Sunday]Monday$endelseif$endif, 1 $if[$month==September]October$elseif[$month==April]May$endelseif$elseif[$month==June]July$endelseif$elseif[$month==November]December$endelseif$endif $year]
-                                    $setUserVar[rdbegt;$sum[$hour;$getUserVar[mqtd];1]:12:$if[$minute==30]00$elseif[$minute!=30]$sum[$minute;-30] am]
+                                    $setUserVar[rdbegt;$sum[$hour;$getUserVar[mqtd];1]:12:$if[$minute==30]00$elseif[$minute!=30]$sum[$minute;-30]$endelseif$endif am]
                                     $sendMessage[Relapse tracker has begun tracking at $getUserVar[rdbegd] $getUserVar[rdbegt]]
                                     $elseif[$month==December&&$day==31]
                                         $setUserVar[rdbegd;$if[$day[yes]==Monday]Tuesday$elseif[$day[yes]==Tuesday]Wednesday$endelseif$elseif[$day[yes]==Wednesday]Thursday$endelseif$elseif[$day[yes]==Thursday]Friday$endelseif$elseif[$day[yes]==Friday]Saturday$endelseif$elseif[$day[yes]==Saturday]Sunday$endelseif$elseif[$day[yes]==Sunday]Monday$endelseif$endif, 1 January $sum[$year;1]]
-                                        $setUserVar[rdbegt;$sum[$hour;$getUserVar[mqtd];1]:12:$if[$minute==30]00$elseif[$minute!=30]$sum[$minute;-30] am]
+                                        $setUserVar[rdbegt;$sum[$hour;$getUserVar[mqtd];1]:12:$if[$minute==30]00$elseif[$minute!=30]$sum[$minute;-30]$endelseif$endif am]
                                         $sendMessage[Relapse tracker has begun tracking at $getUserVar[rdbegd] $getUserVar[rdbegt]. A fresh year is a new opportunity to make this year awesome!]
                                     $endelseif
                                     $elseif[$month==January||$month==March||$month==May||$month==July||$month==August||$month==October&&$day==31]
                                         $setUserVar[rdbegd;$if[$day[yes]==Monday]Tuesday$elseif[$day[yes]==Tuesday]Wednesday$endelseif$elseif[$day[yes]==Wednesday]Thursday$endelseif$elseif[$day[yes]==Thursday]Friday$endelseif$elseif[$day[yes]==Friday]Saturday$endelseif$elseif[$day[yes]==Saturday]Sunday$endelseif$elseif[$day[yes]==Sunday]Monday$endelseif$endif, 1 $if[$month==January]February$elseif[$month==March]April$endelseif$elseif[$month==May]June$endelseif$elseif[$month==July]August$endelseif$elseif[$month==August]September$endelseif$elseif[$month==October]November$endelseif$endif $year]
-                                        $setUserVar[rdbegt;$sum[$hour;$getUserVar[mqtd];1]:12:$if[$minute==30]00$elseif[$minute!=30]$sum[$minute;-30] am]
+                                        $setUserVar[rdbegt;$sum[$hour;$getUserVar[mqtd];1]:12:$if[$minute==30]00$elseif[$minute!=30]$sum[$minute;-30]$endelseif$endif am]
                                         $sendMessage[Relapse tracker has begun tracking at $getUserVar[rdbegd] $getUserVar[rdbegt]. $if[$month==March] No joke, the relapse tracker is properly running!$endif]
                                     $endelseif
                                     $elseif[$day==28||$day==29&&$month==February]
                                         $setUserVar[rdbegd;$if[$day[yes]==Monday]Tuesday$elseif[$day[yes]==Tuesday]Wednesday$endelseif$elseif[$day[yes]==Wednesday]Thursday$endelseif$elseif[$day[yes]==Thursday]Friday$endelseif$elseif[$day[yes]==Friday]Saturday$endelseif$elseif[$day[yes]==Saturday]Sunday$endelseif$elseif[$day[yes]==Sunday]Monday$endelseif$endif, 1 March $year]
-                                        $setUserVar[rdbegt;$sum[$hour;$getUserVar[mqtd];1]:12:$if[$minute==30]00$elseif[$minute!=30]$sum[$minute;-30] am]
+                                        $setUserVar[rdbegt;$sum[$hour;$getUserVar[mqtd];1]:12:$if[$minute==30]00$elseif[$minute!=30]$sum[$minute;-30]$endelseif$endif am]
                                         $sendMessage[Relapse tracker has begun tracking at $getUserVar[rdbegd] $getUserVar[rdbegt].]
                                     $endelseif
                                 $endIf
-                            $elseif[/* taking a me break here */
+                                $elseif[$minute<30&&$sum[$getUserVar[mqtd];$hour]<24]
+                                    $if[$sum[$getUserVar[mqtd];$hour]>12]
+                                        $setUserVar[rdbegd;$formatDate[$dateStamp]]
+                                        $setUserVar[rdbegt;$sum[$getUserVar[mqtd];$hour;-12]:$sum[$minute;30] pm]
+                                        $sendMessage[Relapse tracker has begun tracking at $getUserVar[rdbegd] $getUserVar[rdbegt].]
+                                        $elseif[$sum[$getUserVar[mqtd];$hour]==12]
+                                            $setUserVar[rdbegd;$formatDate[$dateStamp]]
+                                            $setUserVar[rdbegt;12:$sum[$minute;30] pm]
+                                            $sendMessage[Relapse tracker has begun tracking at $getUserVar[rdbegd] $getUserVar[rdbegt].]
+                                        $endelseif
+                                        $elseif[/* taking another break here ... tired  */
+                                
                             $endIf
                             $elseIf[$sum[$getUserVar[mqtd];$hour]==12]
                                 $if[$getUserVar[mqtd]>14]
