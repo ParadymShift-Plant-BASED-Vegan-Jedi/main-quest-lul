@@ -12,12 +12,50 @@ To get started, type:
 !mqlul guide
 Shows this list of all commands.
 
-!mq register
+!mqlul register
 Register for Main Quest and start your lifelong adventure!
+
+!mqlul clocktower
+Opens the main menu for the clocktower.
 
 !mqlul at
 Opens the addiction tracker main screen.]
     $endelseif
+    $elseif[$message[1]==register]
+        $setUserVar[ats;inactive]
+        $setUserVar[cthd;0] //clock tower hour difference
+        $setUserVar[ctmd;0] //clock tower minute difference (-1 = -30 min; 0 = no difference; 1 = +30 min)
+        $sendMessage[Congratulations! You're now registered to Main Quest: Level Up Life. Type the following to get started:
+!mqlul guide]
+    $endelseif
+    $elseif[$message[1]==clocktower]
+        $if[$getUserVar[cthd]==undefined]
+            $sendMessage[You don't appear to be registered for Main Quest. To register type the following:
+!mqlul register]
+        $else
+            $sendMessage[The clock tower currently reads:
+
+$formatDate[$dateStamp]
+$if[$sum[$hour;$getUserVar[cthd]]>12&&$sum[$hour;$getUserVar[cthd]]<24&&$getUserVar[ctmd]==0]$sum[$hour;$getUserVar[cthd];-12]:$minute PM$elseif[$sum[$hour;$getUserVar[cthd]]>24]$sum[$hour;$getUserVar[cthd];-24
+/* 
+$if[$sum[$hour;$getUserVar[cthd]]>12&&$sum[$hour;$getUserVar[cthd]]<24&&$getUserVar[ctmd]==0]
+    $sum[$hour;$getUserVar[cthd];-12]:$minute PM
+    $elseif[$sum[$hour;$getUserVar[cthd]]>24&&$getUserVar[ctmd]==0]
+        $sum[$hour;$getUserVar[cthd];-24]:$minute AM
+    $endelseif
+    $elseif[$sum[$hour;$getUserVar[cthd]]==24&&$getUserVar[ctmd]==0]
+        12:$minute AM
+    $endelseif
+    $elseIf[$sum[$hour;$getUserVar[cthd]]<0&&$getUserVar[ctmd]==0]
+        $sum[$hour;$getUserVar[cthd];12]:$minute PM
+    $endelseif
+    $elseif[$sum[$hour;$getUserVar[cthd]]==00&&$getUserVar[ctmd]==0]
+        12:$minute AM
+    $endelseif //end of the ctmd == 0
+    $
+    
+        
+    */
     $elseif[$message[1]==at&&$message[2]==]
         $if[$getUserVar[ats]==inactive] // addiction tracker status
             $sendMessage[Your Addiction Tracker is currently inactive. To activate it, type:
@@ -28,6 +66,7 @@ Opens the addiction tracker main screen.]
 Your current streak is: $getUserVar[cs]] //current streak
                 $let[bc;$awaitButton[Are you here to report a relapse?{button:Yes:RED::y}{button:No:GREEN::n};$authorID;15s;y;n]]
                 $if[$get[bc]==y]
+                    $setUserVar[cs;0]
                     // Clock stuff here
                     $elseif[$get[bc]==n]
                         $sendMessage[Congratulations on staying clean! :)]
