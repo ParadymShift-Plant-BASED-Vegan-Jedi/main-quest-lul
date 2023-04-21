@@ -36,8 +36,11 @@ Opens the addiction tracker main screen.]
             $sendMessage[The clock tower currently reads:
 
 $formatDate[$dateStamp]
-$if[$sum[$hour;$getUserVar[cthd]]>12&&$sum[$hour;$getUserVar[cthd]]<24&&$getUserVar[ctmd]==0]$sum[$hour;$getUserVar[cthd];-12]:$minute PM$elseif[$sum[$hour;$getUserVar[cthd]]>24]$sum[$hour;$getUserVar[cthd];-24
-/* 
+$if[$sum[$hour;$getUserVar[cthd]]>12&&$sum[$hour;$getUserVar[cthd]]<24&&$getUserVar[ctmd]==0]$sum[$hour;$getUserVar[cthd];-12]:$minute PM$elseif[$sum[$hour;$getUserVar[cthd]]>24&&$getUserVar[ctmd]==0]$sum[$hour;$getUserVar[cthd];-24]:$minute AM$endelseif$elseif[$sum[$hour;$getUserVar[cthd]]==24&&$getUserVar[ctmd]==0]12:$minute AM$endelseif$elseIf[$sum[$hour;$getUserVar[cthd]]<0&&$getUserVar[ctmd]==0]$sum[$hour;$getUserVar[cthd];12]:$minute PM$endelseif$elseif[$sum[$hour;$getUserVar[cthd]]==0&&$getUserVar[ctmd]==0]12:$minute AM$endelseif$elseif[$sum[$hour;$getUserVar[cthd];1]>12&&$sum[$hour;$getUserVar[cthd];1]<24&&$getUserVar[ctmd]==1&&$minute>29]$sum[$hour;$getUserVar[cthd];1;-12]:$sum[$minute;30;-60] PM$endelseif$elseif[$sum[$hour;$getUserVar[cthd];1]>24&&$getUserVar[ctmd]==1&&$minute>29]$sum[$hour;$getUserVar[cthd];1;-24]:$sum[$minute;30;-60] AM$endelseif$elseif[$sum[$hour;$getUserVar[cthd];1]==24&&$getUserVar[ctmd]==1&&$minute>29]12:$sum[$minute;30;-60] AM$endelseif$elseif[$sum[$hour;$getUserVar[cthd];1]<0&&$getUserVar[ctmd]==1&&$minute>29]$sum[$hour;$getUserVar[cthd];1;12]:$sum[$minute;30;-60] PM$endelseif$elseif[$sum[$hour;$getUserVar[cthd];1]==0&&$getUserVar[ctmd]==1&&$minute>29]12:$sum[$minute;30;-60] AM$endelseif$elseif[$sum[$hour;$getUserVar[cthd]]>12&&$sum[$hour;$getUserVar[cthd]]<24&&$getUserVar[ctmd]==1&&$minute<30]$sum[$hour;$getUserVar[cthd];-12]:$sum[30;$minute] PM$endelseif$elseif[$sum[$hour;$getUserVar[cthd]]>24&&$getUserVar[ctmd]==1&&$minute<30]$sum[$hour;$getUserVar[cthd];-24]:$sum[30;$minute] AM$endelseif$elseif[$sum[$hour;$getUserVar[cthd]]==24&&$getUserVar[ctmd]==1&&$minute<30]12:$sum[30;$minute] AM$endelseif$elseIf[$sum[$hour;$getUserVar[cthd]]<0&&$getUserVar[ctmd]==1&&$minute<30]$sum[$hour;$getUserVar[cthd];12]:$sum[30;$minute] PM$endelseif$elseif[$sum[$hour;$getUserVar[cthd]]==0&&$getUserVar[ctmd]==1&&$minute<30]12:$sum[30;$minute] AM$endelseif$elseif[$sum[$hour;$getUserVar[cthd];-1]>12&&$sum[$hour;$getUserVar[cthd];-1]<24&&$getUserVar[ctmd]==-1&&$minute<30]$sum[$hour;$getUserVar[cthd];-1;-12]:$sum[$minute;-30;60] PM$endelseif$elseif[$sum[$hour;$getUserVar[cthd];-1]>24&&$getUserVar[ctmd]==-1&&$minute<30]$sum[$hour;$getUserVar[cthd];-1;-24]:$sum[$minute;-30;60] AM$endelseif$elseif[$sum[$hour;$getUserVar[cthd];-1]==24&&$getUserVar[ctmd]==-1&&$minute<30]12:$sum[$minute;-30;60] AM$endelseif$elseif[$sum[$hour;$getUserVar[cthd];-1]<0&&$getUserVar[ctmd]==-1&&$minute<30]$sum[$hour;$getUserVar[cthd];-1;12]:$sum[$minute;-30;60] PM$endelseif$elseif[$sum[$hour;$getUserVar[cthd];-1]==0&&$getUserVar[ctmd]==-1&&$minute<30]12:$sum[$minute;-30;60] AM$endelseif$elseif[$sum[$hour;$getUserVar[cthd]]>12&&$sum[$hour;$getUserVar[cthd]]<24&&$getUserVar[ctmd]==-1&&$minute>29]$sum[$hour;$getUserVar[cthd];-12]:$sum[-30;$minute] PM$endelseif$elseif[$sum[$hour;$getUserVar[cthd]]>24&&$getUserVar[ctmd]==-1&&$minute>29]$sum[$hour;$getUserVar[cthd];-24]:$sum[-30;$minute] AM$endelseif$elseif[$sum[$hour;$getUserVar[cthd]]==24&&$getUserVar[ctmd]==-1&&$minute>29]12:$sum[-30;$minute] AM$endelseif$elseIf[$sum[$hour;$getUserVar[cthd]]<0&&$getUserVar[ctmd]==-1&&$minute>29]$sum[$hour;$getUserVar[cthd];12]:$sum[-30;$minute] PM$endelseif$elseif[$sum[$hour;$getUserVar[cthd]]==0&&$getUserVar[ctmd]==-1&&$minute>29]12:$sum[-30;$minute] AM$endelseif$endif]
+/* Date Management
+$if[$sum[$hour;$getUserVar[cthd]]<0
+*/
+/* Time Management
 $if[$sum[$hour;$getUserVar[cthd]]>12&&$sum[$hour;$getUserVar[cthd]]<24&&$getUserVar[ctmd]==0]
     $sum[$hour;$getUserVar[cthd];-12]:$minute PM
     $elseif[$sum[$hour;$getUserVar[cthd]]>24&&$getUserVar[ctmd]==0]
@@ -85,19 +88,34 @@ $if[$sum[$hour;$getUserVar[cthd]]>12&&$sum[$hour;$getUserVar[cthd]]<24&&$getUser
     $elseif[$sum[$hour;$getUserVar[cthd];-1]>12&&$sum[$hour;$getUserVar[cthd];-1]<24&&$getUserVar[ctmd]==-1&&$minute<30]
         $sum[$hour;$getUserVar[cthd];-1;-12]:$sum[$minute;-30;60] PM
     $endelseif
-    $elseif[$sum[$hour;$getUserVar[cthd];1]>24&&$getUserVar[ctmd]==1&&$minute>29]
-        $sum[$hour;$getUserVar[cthd];1;-24]:$sum[$minute;30;-60] AM
+    $elseif[$sum[$hour;$getUserVar[cthd];-1]>24&&$getUserVar[ctmd]==-1&&$minute<30]
+        $sum[$hour;$getUserVar[cthd];-1;-24]:$sum[$minute;-30;60] AM
     $endelseif
-    $elseif[$sum[$hour;$getUserVar[cthd];1]==24&&$getUserVar[ctmd]==1&&$minute>29]
-        12:$sum[$minute;30;-60] AM
+    $elseif[$sum[$hour;$getUserVar[cthd];-1]==24&&$getUserVar[ctmd]==-1&&$minute<30]
+        12:$sum[$minute;-30;60] AM
     $endelseif
-    $elseif[$sum[$hour;$getUserVar[cthd];1]<0&&$getUserVar[ctmd]==1&&$minute>29]
-        $sum[$hour;$getUserVar[cthd];1;12]:$sum[$minute;30;-60] PM
+    $elseif[$sum[$hour;$getUserVar[cthd];-1]<0&&$getUserVar[ctmd]==-1&&$minute<30]
+        $sum[$hour;$getUserVar[cthd];-1;12]:$sum[$minute;-30;60] PM
     $endelseif
-    $elseif[$sum[$hour;$getUserVar[cthd];1]==0&&$getUserVar[ctmd]==1&&$minute>29]
-        12:$sum[$minute;30;-60] AM
+    $elseif[$sum[$hour;$getUserVar[cthd];-1]==0&&$getUserVar[ctmd]==-1&&$minute<30]
+        12:$sum[$minute;-30;60] AM
+    $endelseif //end of ctmd == -1 && $minute < 30
+    $elseif[$sum[$hour;$getUserVar[cthd]]>12&&$sum[$hour;$getUserVar[cthd]]<24&&$getUserVar[ctmd]==-1&&$minute>29]
+        $sum[$hour;$getUserVar[cthd];-12]:$sum[-30;$minute] PM
     $endelseif
-    
+    $elseif[$sum[$hour;$getUserVar[cthd]]>24&&$getUserVar[ctmd]==-1&&$minute>29]
+        $sum[$hour;$getUserVar[cthd];-24]:$sum[-30;$minute] AM
+    $endelseif
+    $elseif[$sum[$hour;$getUserVar[cthd]]==24&&$getUserVar[ctmd]==-1&&$minute>29]
+        12:$sum[-30;$minute] AM
+    $endelseif
+    $elseIf[$sum[$hour;$getUserVar[cthd]]<0&&$getUserVar[ctmd]==-1&&$minute>29]
+        $sum[$hour;$getUserVar[cthd];12]:$sum[-30;$minute] PM
+    $endelseif
+    $elseif[$sum[$hour;$getUserVar[cthd]]==0&&$getUserVar[ctmd]==-1&&$minute>29]
+        12:$sum[-30;$minute] AM
+    $endelseif
+$endif
         
     */
     $elseif[$message[1]==at&&$message[2]==]
