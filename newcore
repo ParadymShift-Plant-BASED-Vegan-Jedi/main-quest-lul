@@ -1,0 +1,85 @@
+$if[$message[1]==]
+    $sendMessage[Welcome to Main Quest: Level Up Life! 
+This is a productivity and addiction recovery app designed to assist you in creating the life you deserve.
+
+Features include addiction tracking with stats as well as a transiet daily goal list, not to mention much more to come such as a leveling system.
+
+To get started, type:
+!mqlul guide]
+    $elseif[$message[1]==guide]
+        $sendMessage[Here is a list of all of the commands available on Main Quest: Level Up Life:
+
+!mqlul guide
+Shows this list of all commands.
+
+!mq register
+Register for Main Quest and start your lifelong adventure!
+
+!mqlul at
+Opens the addiction tracker main screen.]
+    $endelseif
+    $elseif[$message[1]==at&&$message[2]==]
+        $if[$getUserVar[ats]==inactive] // addiction tracker status
+            $sendMessage[Your Addiction Tracker is currently inactive. To activate it, type:
+!mqlul at activate]
+            $elseif[$getUserVar[ats]==active]
+                $sendMessage[Your addiction tracker is currently active.
+
+Your current streak is: $getUserVar[cs]] //current streak
+                $let[bc;$awaitButton[Are you here to report a relapse?{button:Yes:RED::y}{button:No:GREEN::n};$authorID;15s;y;n]]
+                $if[$get[bc]==y]
+                    // Clock stuff here
+                    $elseif[$get[bc]==n]
+                        $sendMessage[Congratulations on staying clean! :)]
+                    $endelseif
+                    $elseif[$get[bc]==undefined]
+                        $sendMessage[Please select a button next time.]
+                    $endelseif
+                $endif
+            $endelseif
+            $elseif[$getUserVar[ats]==undefined]
+                $sendMessage[You don't appear to be registered for Main Quest. To register type the following:
+!mqlul register]
+            $endelseif
+        $endif
+    $endelseif
+    $elseif[$message[1]==at&&$message[2]==activate]
+        $if[$getUserVar[ats]==undefined]
+            $sendMessage[You don't appear to be registered for Main Quest. To register type the following:
+!mqlul register]
+            $elseif[$getUserVar[ats]==active]
+                $let[bc;$awaitButton[Your Addiction Tracker is currently active. Would you like to deactivate it?{button:Yes:RED::y}{button:No:GREEN::n};$authorID;15s;y;n]]
+                $if[$get[bc]==y]
+                    $sendMessage[Ok, your Addiction Tracker is now set to: inactive.]
+                    $setUserVar[ats;inactive]
+                    $elseif[$get[bc]==n]
+                        $sendMessage[Okay, no changes have been made. Have a nice day/night!]
+                    $endelseif
+                    $elseif[$get[bc]==undefined]
+                        $sendMessage[Please make a selection next time.]
+                    $endelseif
+                $endif
+            $endelseif
+            $elseif[$getUserVar[ats]==inactive]
+                $let[bc;$awaitButton[Your Addiction Tracker is currently inactive. Would you like to activate it?{button:Yes:GREEN::y}{button:No:RED::n};$authorID;15s;y;n]]
+                $if[$get[bc]==y]
+                    $sendMessage[Ok, your Addiction Tracker has been set to: active.]
+                    $setUserVar[ats;active]
+                    $elseif[$get[bc]==n]
+                        $sendMessage[Okay, no changes have been made. Have a nice day/night!]
+                    $endelseif
+                    $elseif[$get[bc]==undefined]
+                        $sendMessage[Please make a selection next time.]
+                    $endelseif
+                $endif
+            $endelseif
+        $endIf
+    $endelseif
+$endif
+       
+       
+                
+                
+                
+                
+                
