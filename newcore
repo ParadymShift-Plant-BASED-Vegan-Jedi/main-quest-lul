@@ -38,7 +38,103 @@ Opens the addiction tracker main screen.]
 $formatDate[$dateStamp]
 $if[$sum[$hour;$getUserVar[cthd]]>12&&$sum[$hour;$getUserVar[cthd]]<24&&$getUserVar[ctmd]==0]$sum[$hour;$getUserVar[cthd];-12]:$minute PM$elseif[$sum[$hour;$getUserVar[cthd]]>24&&$getUserVar[ctmd]==0]$sum[$hour;$getUserVar[cthd];-24]:$minute AM$endelseif$elseif[$sum[$hour;$getUserVar[cthd]]==24&&$getUserVar[ctmd]==0]12:$minute AM$endelseif$elseIf[$sum[$hour;$getUserVar[cthd]]<0&&$getUserVar[ctmd]==0]$sum[$hour;$getUserVar[cthd];12]:$minute PM$endelseif$elseif[$sum[$hour;$getUserVar[cthd]]==0&&$getUserVar[ctmd]==0]12:$minute AM$endelseif$elseif[$sum[$hour;$getUserVar[cthd];1]>12&&$sum[$hour;$getUserVar[cthd];1]<24&&$getUserVar[ctmd]==1&&$minute>29]$sum[$hour;$getUserVar[cthd];1;-12]:$sum[$minute;30;-60] PM$endelseif$elseif[$sum[$hour;$getUserVar[cthd];1]>24&&$getUserVar[ctmd]==1&&$minute>29]$sum[$hour;$getUserVar[cthd];1;-24]:$sum[$minute;30;-60] AM$endelseif$elseif[$sum[$hour;$getUserVar[cthd];1]==24&&$getUserVar[ctmd]==1&&$minute>29]12:$sum[$minute;30;-60] AM$endelseif$elseif[$sum[$hour;$getUserVar[cthd];1]<0&&$getUserVar[ctmd]==1&&$minute>29]$sum[$hour;$getUserVar[cthd];1;12]:$sum[$minute;30;-60] PM$endelseif$elseif[$sum[$hour;$getUserVar[cthd];1]==0&&$getUserVar[ctmd]==1&&$minute>29]12:$sum[$minute;30;-60] AM$endelseif$elseif[$sum[$hour;$getUserVar[cthd]]>12&&$sum[$hour;$getUserVar[cthd]]<24&&$getUserVar[ctmd]==1&&$minute<30]$sum[$hour;$getUserVar[cthd];-12]:$sum[30;$minute] PM$endelseif$elseif[$sum[$hour;$getUserVar[cthd]]>24&&$getUserVar[ctmd]==1&&$minute<30]$sum[$hour;$getUserVar[cthd];-24]:$sum[30;$minute] AM$endelseif$elseif[$sum[$hour;$getUserVar[cthd]]==24&&$getUserVar[ctmd]==1&&$minute<30]12:$sum[30;$minute] AM$endelseif$elseIf[$sum[$hour;$getUserVar[cthd]]<0&&$getUserVar[ctmd]==1&&$minute<30]$sum[$hour;$getUserVar[cthd];12]:$sum[30;$minute] PM$endelseif$elseif[$sum[$hour;$getUserVar[cthd]]==0&&$getUserVar[ctmd]==1&&$minute<30]12:$sum[30;$minute] AM$endelseif$elseif[$sum[$hour;$getUserVar[cthd];-1]>12&&$sum[$hour;$getUserVar[cthd];-1]<24&&$getUserVar[ctmd]==-1&&$minute<30]$sum[$hour;$getUserVar[cthd];-1;-12]:$sum[$minute;-30;60] PM$endelseif$elseif[$sum[$hour;$getUserVar[cthd];-1]>24&&$getUserVar[ctmd]==-1&&$minute<30]$sum[$hour;$getUserVar[cthd];-1;-24]:$sum[$minute;-30;60] AM$endelseif$elseif[$sum[$hour;$getUserVar[cthd];-1]==24&&$getUserVar[ctmd]==-1&&$minute<30]12:$sum[$minute;-30;60] AM$endelseif$elseif[$sum[$hour;$getUserVar[cthd];-1]<0&&$getUserVar[ctmd]==-1&&$minute<30]$sum[$hour;$getUserVar[cthd];-1;12]:$sum[$minute;-30;60] PM$endelseif$elseif[$sum[$hour;$getUserVar[cthd];-1]==0&&$getUserVar[ctmd]==-1&&$minute<30]12:$sum[$minute;-30;60] AM$endelseif$elseif[$sum[$hour;$getUserVar[cthd]]>12&&$sum[$hour;$getUserVar[cthd]]<24&&$getUserVar[ctmd]==-1&&$minute>29]$sum[$hour;$getUserVar[cthd];-12]:$sum[-30;$minute] PM$endelseif$elseif[$sum[$hour;$getUserVar[cthd]]>24&&$getUserVar[ctmd]==-1&&$minute>29]$sum[$hour;$getUserVar[cthd];-24]:$sum[-30;$minute] AM$endelseif$elseif[$sum[$hour;$getUserVar[cthd]]==24&&$getUserVar[ctmd]==-1&&$minute>29]12:$sum[-30;$minute] AM$endelseif$elseIf[$sum[$hour;$getUserVar[cthd]]<0&&$getUserVar[ctmd]==-1&&$minute>29]$sum[$hour;$getUserVar[cthd];12]:$sum[-30;$minute] PM$endelseif$elseif[$sum[$hour;$getUserVar[cthd]]==0&&$getUserVar[ctmd]==-1&&$minute>29]12:$sum[-30;$minute] AM$endelseif$endif]
 /* Date Management
-$if[$sum[$hour;$getUserVar[cthd]]<0
+$if[$sum[$hour;$getUserVar[cthd]]<0&&$getUserVar[ctmd]==0&&$day!=1] //hours into previous day, day of month not 1
+    $if[$day[yes]==Sunday]
+        Saturday
+        $elseif[$day[yes]==Monday]
+            Sunday
+        $endelseif
+        $elseif[$day[yes]==Tuesday]
+            Monday
+        $endelseif
+        $elseif[$day[yes]==Wednesday]
+            Tuesday
+        $endelseif
+        $elseif[$day[yes]==Thursday]
+            Wednesday
+        $endelseif
+        $elseif[$day[yes]==Friday]
+            Thursday
+        $endelseif
+        $elseif[$day[yes]==Saturday]
+            Friday
+        $endelseif
+    $endif
+    , $sum[$day;-1] $month $year
+    $elseif[$sum[$hour;$getUserVar[cthd]]>24&&$getUserVar[ctmd]==0&&$day!=30&&$month!=February&&$month!=January&&$month!=March&&$month!=May&&$month!=July&&$month!=August&&$month!=October&&$month!=December] //hours into next day, Month has 30 days, day is not day 30
+        $if[$day[yes]==Sunday]
+            Monday
+            $elseif[$day[yes]==Monday]
+                Tuesday
+            $endelseif
+            $elseif[$day[yes]==Tuesday]
+                Wednesday
+            $endelseif
+            $elseif[$day[yes]==Wednesday]
+                Thursday
+            $endelseif
+            $elseif[$day[yes]==Thursday]
+                Friday
+            $endelseif
+            $elseif[$day[yes]==Friday]
+                Saturday
+            $endelseif
+            $elseif[$day[yes]==Saturday]
+                Sunday
+            $endelseif
+        $endif
+        , $sum[$day;1] $month $year
+    $endelseif
+    $elseif[$sum[$hour;$getUserVar[cthd]]>24&&$getUserVar[ctmd]==0&&$day!=31&&$month!=February&&$month!=April&&$month!=June&&$month!=September&&$month!=November] //hours into next day, month has 31 days, day of month is not 31
+        $if[$day[yes]==Sunday]
+            Monday
+            $elseif[$day[yes]==Monday]
+                Tuesday
+            $endelseif
+            $elseif[$day[yes]==Tuesday]
+                Wednesday
+            $endelseif
+            $elseif[$day[yes]==Wednesday]
+                Thursday
+            $endelseif
+            $elseif[$day[yes]==Thursday]
+                Friday
+            $endelseif
+            $elseif[$day[yes]==Friday]
+                Saturday
+            $endelseif
+            $elseif[$day[yes]==Saturday]
+                Sunday
+            $endelseif
+        $endif
+        , $sum[$day;1] $month $year
+    $endelseif
+    $elseif[$sum[$hour;$getUserVar[cthd]]>24&&$getUserVar[ctmd]==0&&$day!=28&&$month==February&&$year!=2024&&$year!=2028&&$year!=2032&&$year!=2036&&$year!=2040&&$year!=2044&&$year!=2048] //month = february, day is not 28, hours into next day, year is not leap year
+        $if[$day[yes]==Sunday]
+            Monday
+            $elseif[$day[yes]==Monday]
+                Tuesday
+            $endelseif
+            $elseif[$day[yes]==Tuesday]
+                Wednesday
+            $endelseif
+            $elseif[$day[yes]==Wednesday]
+                Thursday
+            $endelseif
+            $elseif[$day[yes]==Thursday]
+                Friday
+            $endelseif
+            $elseif[$day[yes]==Friday]
+                Saturday
+            $endelseif
+            $elseif[$day[yes]==Saturday]
+                Sunday
+            $endelseif
+        $endif
+        , $sum[$day;1] $month $year
+    $endelseif
+    $elseif[
+        
 */
 /* Time Management
 $if[$sum[$hour;$getUserVar[cthd]]>12&&$sum[$hour;$getUserVar[cthd]]<24&&$getUserVar[ctmd]==0]
