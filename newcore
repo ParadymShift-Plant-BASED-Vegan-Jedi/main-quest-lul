@@ -301,7 +301,28 @@ $if[$sum[$hour;$getUserVar[cthd]]<0&&$getUserVar[ctmd]==0&&$day!=1] //hours into
         $endif
         , $sum[$day;1] $month $year
     $endelseif
-    $elseif[$sum[$hour;$getUserVar[cthd]]<0&&$getUserVar[ctmd]==0&&$day==1&&$month!=March&&$month!=February&&$month!=April&&$month!=June&&$month!=August&&$month!=September&&$month!=November&&$month!=January]
+    $elseif[$sum[$hour;$getUserVar[cthd]]<0&&$getUserVar[ctmd]==0&&$day==1&&$month!=March&&$month!=February&&$month!=April&&$month!=June&&$month!=August&&$month!=September&&$month!=November&&$month!=January] //previous day first day of month, months with 30 days
+        $if[$day[yes]==Sunday]
+            Saturday
+            $elseif[$day[yes]==Monday]
+                Sunday
+            $endelseif
+            $elseif[$day[yes]==Tuesday]
+                Monday
+            $endelseif
+            $elseif[$day[yes]==Wednesday]
+                Tuesday
+            $endelseif
+            $elseif[$day[yes]==Thursday]
+                Wednesday
+            $endelseif
+            $elseif[$day[yes]==Friday]
+                Thursday
+            $endelseif
+            $elseif[$day[yes]==Saturday]
+                Friday
+            $endelseif
+        $endif
         , 30 
         $if[$month==May]
             April
@@ -317,8 +338,223 @@ $if[$sum[$hour;$getUserVar[cthd]]<0&&$getUserVar[ctmd]==0&&$day!=1] //hours into
         $endif
          $year
     $endelseif
+    $elseif[$sum[$hour;$getUserVar[cthd]]<0&&$getUserVar[ctmd]==0&&$day==1&&$month!=March&&$month!=May&&$month!=July&&$month!=October&&$month!=December] //previous day on the first, months with 31 days
+        , 31
+        $if[$month==February]
+            January
+            $elseif[$month==April]
+                March
+            $endelseif
+            $elseif[$month==June]
+                May
+            $endelseif
+            $elseif[$month==August]
+                July
+            $endelseif
+            $elseif[$month==September]
+                August
+            $endelseif
+            $elseif[$month==November]
+                October
+            $endelseif
+            $elseif[$month==January]
+                December
+            $endelseif
+        $endif
+    $endelseif
+    $elseif[$sum[$hour;$getUserVar[cthd]]<0&&$getUserVar[ctmd]==0&&$day==1&&$month==March&&$year!=2024&&$year!=2028&&$year!=2032&&$year!=2036&&$year!=2040&&$year!=2044&&$year!=2048]
+        $if[$day[yes]==Sunday]
+            Saturday
+            $elseif[$day[yes]==Monday]
+                Sunday
+            $endelseif
+            $elseif[$day[yes]==Tuesday]
+                Monday
+            $endelseif
+            $elseif[$day[yes]==Wednesday]
+                Tuesday
+            $endelseif
+            $elseif[$day[yes]==Thursday]
+                Wednesday
+            $endelseif
+            $elseif[$day[yes]==Friday]
+                Thursday
+            $endelseif
+            $elseif[$day[yes]==Saturday]
+                Friday
+            $endelseif
+        $endif
+        , 28 February $year
+    $endelseif
+    $elseif[$sum[$hour;$getUserVar[cthd]]<0&&$getUserVar[ctmd]==0&&$day==1&&$month==March&&$year==2024]
+        $if[$day[yes]==Sunday]
+            Saturday
+            $elseif[$day[yes]==Monday]
+                Sunday
+            $endelseif
+            $elseif[$day[yes]==Tuesday]
+                Monday
+            $endelseif
+            $elseif[$day[yes]==Wednesday]
+                Tuesday
+            $endelseif
+            $elseif[$day[yes]==Thursday]
+                Wednesday
+            $endelseif
+            $elseif[$day[yes]==Friday]
+                Thursday
+            $endelseif
+            $elseif[$day[yes]==Saturday]
+                Friday
+            $endelseif
+        $endif
+        , 29 February $year
+    $endelseif
+    $elseif[$sum[$hour;$getUserVar[cthd]]<0&&$getUserVar[ctmd]==0&&$day==1&&$month==March&&$year==2028]
+        $if[$day[yes]==Sunday]
+            Saturday
+            $elseif[$day[yes]==Monday]
+                Sunday
+            $endelseif
+            $elseif[$day[yes]==Tuesday]
+                Monday
+            $endelseif
+            $elseif[$day[yes]==Wednesday]
+                Tuesday
+            $endelseif
+            $elseif[$day[yes]==Thursday]
+                Wednesday
+            $endelseif
+            $elseif[$day[yes]==Friday]
+                Thursday
+            $endelseif
+            $elseif[$day[yes]==Saturday]
+                Friday
+            $endelseif
+        $endif
+        , 29 February $year
+    $endelseif
+    $elseif[$sum[$hour;$getUserVar[cthd]]<0&&$getUserVar[ctmd]==0&&$day==1&&$month==March&&$year==2032]
+        $if[$day[yes]==Sunday]
+            Saturday
+            $elseif[$day[yes]==Monday]
+                Sunday
+            $endelseif
+            $elseif[$day[yes]==Tuesday]
+                Monday
+            $endelseif
+            $elseif[$day[yes]==Wednesday]
+                Tuesday
+            $endelseif
+            $elseif[$day[yes]==Thursday]
+                Wednesday
+            $endelseif
+            $elseif[$day[yes]==Friday]
+                Thursday
+            $endelseif
+            $elseif[$day[yes]==Saturday]
+                Friday
+            $endelseif
+        $endif
+        , 29 February $year
+    $endelseif
+    $elseif[$sum[$hour;$getUserVar[cthd]]<0&&$getUserVar[ctmd]==0&&$day==1&&$month==March&&$year==2036]
+        $if[$day[yes]==Sunday]
+            Saturday
+            $elseif[$day[yes]==Monday]
+                Sunday
+            $endelseif
+            $elseif[$day[yes]==Tuesday]
+                Monday
+            $endelseif
+            $elseif[$day[yes]==Wednesday]
+                Tuesday
+            $endelseif
+            $elseif[$day[yes]==Thursday]
+                Wednesday
+            $endelseif
+            $elseif[$day[yes]==Friday]
+                Thursday
+            $endelseif
+            $elseif[$day[yes]==Saturday]
+                Friday
+            $endelseif
+        $endif
+        , 29 February $year
+    $endelseif
+    $elseif[$sum[$hour;$getUserVar[cthd]]<0&&$getUserVar[ctmd]==0&&$day==1&&$month==March&&$year==2040]
+        $if[$day[yes]==Sunday]
+            Saturday
+            $elseif[$day[yes]==Monday]
+                Sunday
+            $endelseif
+            $elseif[$day[yes]==Tuesday]
+                Monday
+            $endelseif
+            $elseif[$day[yes]==Wednesday]
+                Tuesday
+            $endelseif
+            $elseif[$day[yes]==Thursday]
+                Wednesday
+            $endelseif
+            $elseif[$day[yes]==Friday]
+                Thursday
+            $endelseif
+            $elseif[$day[yes]==Saturday]
+                Friday
+            $endelseif
+        $endif
+        , 29 February $year
+    $endelseif
+    $elseif[$sum[$hour;$getUserVar[cthd]]<0&&$getUserVar[ctmd]==0&&$day==1&&$month==March&&$year==2044]
+        $if[$day[yes]==Sunday]
+            Saturday
+            $elseif[$day[yes]==Monday]
+                Sunday
+            $endelseif
+            $elseif[$day[yes]==Tuesday]
+                Monday
+            $endelseif
+            $elseif[$day[yes]==Wednesday]
+                Tuesday
+            $endelseif
+            $elseif[$day[yes]==Thursday]
+                Wednesday
+            $endelseif
+            $elseif[$day[yes]==Friday]
+                Thursday
+            $endelseif
+            $elseif[$day[yes]==Saturday]
+                Friday
+            $endelseif
+        $endif
+        , 29 February $year
+    $endelseif
+    $elseif[$sum[$hour;$getUserVar[cthd]]<0&&$getUserVar[ctmd]==0&&$day==1&&$month==March&&$year==2048]
+        $if[$day[yes]==Sunday]
+            Saturday
+            $elseif[$day[yes]==Monday]
+                Sunday
+            $endelseif
+            $elseif[$day[yes]==Tuesday]
+                Monday
+            $endelseif
+            $elseif[$day[yes]==Wednesday]
+                Tuesday
+            $endelseif
+            $elseif[$day[yes]==Thursday]
+                Wednesday
+            $endelseif
+            $elseif[$day[yes]==Friday]
+                Thursday
+            $endelseif
+            $elseif[$day[yes]==Saturday]
+                Friday
+            $endelseif
+        $endif
+        , 29 February $year
+    $endelseif
     $elseif[
-        
 */
 /* Time Management
 $if[$sum[$hour;$getUserVar[cthd]]>12&&$sum[$hour;$getUserVar[cthd]]<24&&$getUserVar[ctmd]==0]
